@@ -1,0 +1,79 @@
+:root{
+    --white: #FFFFFF;
+    --button: #62A1EB;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+.app > .landing-container,
+.landing-container > .landing-links{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.app > #landing-container-page{
+    display: flex;
+    justify-content: center;
+    width: 1920px;
+    height: 1080px;
+    box-sizing: border-box;
+    background-color: var(--white);
+    align-items: center;
+}
+#landing-container-page > .landing-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 781px;
+    height: 854px;
+}
+.landing-container > .landing-links{
+    width: 387px;
+    height: 146px;
+}
+.landing-links > .landing-link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Helvetica Neue';
+    font-style: normal;
+    font-weight: 500px;
+    font-size: 20px;
+    color: var(--white);
+    background-color: var(--button);
+}
+.landing-links > .landing-link:hover{
+    transform: scale(1.1);
+}
+.landing-container > .reberry-logo-text{
+    width: 112px;
+    height: 18px;
+}
+.landing-container > .landing-page-visual{
+    width: 781px;
+    height: 482px;
+}
+@media screen and (max-width: 390px) {
+    .app > #landing-container-page{
+        width: 390px;
+        height: 844px;
+    }
+    #landing-container-page > .landing-container{
+        width: 358px;
+        height: 742px;
+    }
+    .landing-container > .landing-page-visual{
+        width: 269px;
+        height: 349px;
+        content: url("../images/computer.png");
+    }
+    .landing-container > .landing-links{
+        width: 358px;
+        height: 136px;
+    }
+}

@@ -1,0 +1,302 @@
+:root{
+    --underline: #000000;
+    --text: #232323;
+    --white: #FFFFFF;
+    --info-background:#F7F7F7;
+    --pagination: #898989;
+    --cyan: #8AC0E2;
+    --black: #000000;
+    --light-black: #2E2E2E;
+    --selector-background: #EBEBEB;
+    --button: #62A1EB;
+    --hover: #E7F0F8;
+}
+#personal-info-page,
+#laptop-features-page{
+    width: 1920px;
+    height: 1327px;
+    box-sizing: border-box;
+    padding-top: 90px;
+    background-color: var(--info-background);
+}
+#personal-info-page > .personal-info-page,
+#laptop-features-page > .laptop-features-page{
+    width: 100%;
+    height: 1191px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+#laptop-features-pagev > .laptop-features-page{
+    height: 1789px;
+}
+.personal-info-page > .nav-back,
+.laptop-features-page > .nav-back{
+    position: absolute;
+    width: 53px;
+    height: 53px;
+    left: 70px;
+    top: 53px;
+}
+.personal-info-page > .redberry-logo,
+.laptop-features-page > .redberry-logo{
+    width: 85px;
+    height: 85px;
+}
+.navigation > .left-underline,
+.navigation > .right-underline{
+    position: absolute;
+    width: 185px;
+    height: 0px;
+    left: 678px;
+    top: 130px;
+    border: 2px solid var(--underline);
+}
+.navigation > .right-underline{
+    position: absolute;
+    width: 263px;
+    left: 984px;
+}
+.navigation > .info-nav-link{
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+}
+.navigation > .employee-minimized,
+.navigation > .laptop-minimized{
+    display: none;
+}
+.personal-info-page > .personal-info-container,
+.laptop-features-page > .laptop-features-container{
+    width: 1226px;
+    height: 1040px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.personal-info-container > .navigation,
+.laptop-features-container > .navigation{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 600px;
+    height: 24px;
+}
+.personal-info-container > .survey-container,
+.laptop-features-container >  .survey-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 973px;
+    background-color: var(--white);
+    border-radius: 18px;
+}
+.survey-container > .names,
+.survey-container > .mail,
+.survey-container > .phone-number{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 1000px;
+    height: 134px;
+    margin-top: 90px;
+}
+.survey-container > .mail,
+.survey-container > .phone-number{
+    flex-direction: column;
+    margin-top: 0;
+}
+.survey-container > .selector{
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: 60px;
+    box-sizing: border-box;
+}
+.selector > .selected-value{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: var(--selector-background);
+    border-radius: 8px;
+    padding: 0 30px 0 30px;
+}
+.selected-value > .dropdown-vector{
+    width: 15px;
+    height: 9px;
+}
+.selector > .selector-dropdown{
+    position: absolute;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: 205px;
+    border-radius: 8px;
+    background-color: var(--white);
+    filter: drop-shadow(0px 4px 34px rgba(0, 0, 0, 0.25));
+}
+.selector-dropdown > .dropdown-value{
+    display: flex;
+    align-items: center;
+    height: 41px;
+    padding: 0 30px 0 30px;
+}
+.selector-dropdown > .dropdown-value:hover{
+    background-color: var(--hover);
+    cursor: pointer;
+}
+.hide{
+    display: none;
+}
+.names > .first-name,
+.names > .last-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 456px;
+    height: 100%;
+}
+.first-name > .name-label,
+.last-name > .name-label{
+    color: var(--black);
+}
+.first-name > span,
+.last-name > span{
+    color: var(--light-black);
+}
+.first-name > .name-input,
+.last-name > .name-input,
+.mail > .mail-input,
+.phone-number > .phone-number-input{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 60px;
+    border: 2px solid var(--cyan);
+    border-radius: 8px;
+}
+.survey-container > .next-button-container{
+    width: 1000px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 44px;
+}
+.next-button{
+    box-sizing: border-box;
+    width: 176px;
+    height: 60px;
+    padding: 18px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--white);
+    background-color: var(--button);
+    border-radius: 8px;
+}
+@media screen and (max-width: 390px) {
+    #personal-info-page,
+    #laptop-features-page{
+        width: 390px;
+        height: 1003px;
+        padding: 0;
+    }
+    #personal-info-page > .personal-info-page{
+        height: 100%;
+    }
+    .personal-info-page > .nav-back,
+    .laptop-features-page > .nav-back{
+        left: 20px;
+        top: 34px;
+    }
+    #nav-arrow{
+        content: url("../images/arrow-small.png");
+    }
+    .navigation > .laptop,
+    .navigation > .right-underline{
+        display: none;
+    }
+    .navigation > .left-underline,
+    .navigation > .right-underline{
+        left: 182px;
+        top: 56px;
+        color: var(--pagination);
+        border: 0;
+    }
+    .navigation > .left-underline::after,
+    .navigation > .right-underline::after{
+        position: absolute;
+        left: -10px;
+        content: "1/2";
+    }
+    .personal-info-page > .personal-info-container,
+    .laptop-features-page > .laptop-features-container{
+        box-sizing: border-box;
+        width: 100%;
+        padding-top: 31px;
+    }
+    .personal-info-container > .navigation,
+    .laptop-features-container > .navigation {
+        width: 300px !important;
+    }
+    .navigation > .employee,
+    .navigation > .laptop{
+        display: none;
+    } 
+    .navigation > .employee-minimized,
+    .navigation > .laptop-minimized{
+        display: block;
+        text-align: center;
+    }
+    .personal-info-container > .navigation,
+    .laptop-features-container > .navigation{
+        width: 180px;
+    }
+    .personal-info-page > .redberry-logo{
+        display: none;
+    }
+    .personal-info-container > .navigation,
+    .laptop-features-container > .navigation{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        height: 50px;
+    }
+    .personal-info-container > .survey-container{
+        height: 922px;
+    }
+    .survey-container > .names{
+        flex-direction: column;
+        width: 95%;
+        height: 270px;
+        margin-top: 30px;
+    }
+    .survey-container > .mail,
+    .survey-container > .phone-number{
+        width: 95%;
+        height: 135px;
+    }
+    .names > .first-name,
+    .names > .last-name{
+        width: 100%;
+    }
+    .survey-container > .selector,
+    .survey-container > .next-button-container{
+        width: 95%;
+    }
+    .first-name > .name-input,
+    .last-name > .name-input,
+    .mail > .mail-input,
+    .phone-number > .phone-number-input{
+        width: 100%;
+    }
+}

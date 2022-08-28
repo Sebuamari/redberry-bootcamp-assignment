@@ -1,0 +1,37 @@
+#laptop-features-page{
+    width: 1920px;
+    height: 1921px !important;
+}
+#laptop-features-page > .laptop-features-page{
+    height: 1778px !important;
+}
+.laptop-features-page > .laptop-features-container{
+    height: 1638px !important;
+}
+.laptop-features-container >  .survey-container{
+    height: 1571px !important;
+}
+@media screen and (max-width: 390px) {
+    #laptop-features-page,
+    .laptop-features-page > .laptop-features-container{
+        height: 1811px !important;
+    }
+    #laptop-features-page > .laptop-features-page{
+        height: 1727px !important;
+    }
+    .laptop-features-container > .navigation {
+        width: 300px !important;
+    }
+    .navigation > .right-underline{
+        display: block !important;
+    }
+    .navigation > .right-underline::after{
+        content: "2/2" !important;
+    }
+    .laptop-features-page > .redberry-logo{
+        display: none;
+    }
+    .laptop-features-container >  .survey-container{
+        height: 1727px !important;
+    }
+}
