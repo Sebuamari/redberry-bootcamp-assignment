@@ -1,0 +1,82 @@
+:root{
+    --success-background: #4A4A4A;
+    --success-container-background:#FFFFFF;
+    --button: #62A1EB;
+}
+.app > .success-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2033px;
+    height: 1205px;
+    background-color: var(--success-background);
+}
+.success-page > .success-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 847px;
+    height: 537px;
+    border-radius: 8px;
+    background-color: var(--success-container-background);
+}
+.success-container > .image-and-message{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 314px;
+    height: 320px;
+}
+.success-container > .success-links{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 120px;
+}
+.image-and-message > .success-image{
+    width: 235px;
+    height: 258px;
+}
+.image-and-message > .success-message{
+    font-size: 25px;
+}
+.success-links > .list-button{
+    width: 297px;
+    height: 60px;
+    text-decoration: none;
+    background-color: var(--button);
+    border-radius: 8px;
+    border: 0;
+    color: var(--success-container-background);
+    font-size: 20px;
+}
+.success-links > .main-button{
+    text-decoration: none;
+    font-size: 20px;
+}
+@media screen and (max-width: 390px) {
+    .app > .success-page{
+        width: 390px;
+        height: 844px;
+    }
+    .success-page > .success-container{
+        width: 100%;
+        height: 100%;
+    }
+    .success-container > .image-and-message{
+        height: 450px;
+        justify-content: flex-end;
+    }
+    .image-and-message > .success-image{
+        width: 235px;
+    }
+    .image-and-message > .success-message{
+        font-size: 22px;
+    }
+    .success-container > .success-links{
+        justify-content: space-between;
+    }
+}
