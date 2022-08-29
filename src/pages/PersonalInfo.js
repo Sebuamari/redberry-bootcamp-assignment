@@ -5,12 +5,12 @@ import logo from "../images/logo.png"
 import dropdown from "../images/dropdown-arrow.png"
 import "../styles/personalInfo.css"
 const teamsURL = "https://pcfy.redberryinternship.ge/api/teams";
-const brandsURL = "https://pcfy.redberryinternship.ge/api/brands";
+const positionsURL = "https://pcfy.redberryinternship.ge/api/positions";
 
 export default class PersonalInfo extends Component {
   state = {
     teams: [],
-    brands: [],
+    positions: [],
     teamsDropDown: false,
     brandsDropDown: false,
     selectedTeamsValue: "თიმი",
@@ -26,19 +26,19 @@ export default class PersonalInfo extends Component {
               });
           })
   }
-  fetchbrands = (url) => {
+  fetchpositions = (url) => {
     fetch(url)
           .then((res) => res.json())
           .then((json) => {
               this.setState({
-                  brands: [...json.data]
+                positions: [...json.data]
               });
           })
   }
   //fetching datas from API as the component mounts
   componentDidMount() {
       this.fetchteams(teamsURL);
-      this.fetchbrands(brandsURL);
+      this.fetchpositions(positionsURL);
   }
   // change selected value
   changeSelectedValue = (e) => {
@@ -115,7 +115,7 @@ export default class PersonalInfo extends Component {
                     <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                   </div>
                   <div id="brands-values" className={selectorClassBrands}>
-                    {this.showSelector(this.state.brands)}
+                    {this.showSelector(this.state.positions)}
                   </div>
               </div>
               <div className='mail'>

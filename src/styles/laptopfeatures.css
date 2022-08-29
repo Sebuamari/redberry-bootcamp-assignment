@@ -1,3 +1,14 @@
+:root{
+    --dotted-border: #4386A9;
+    --button: #62A1EB;
+    --white: #FFFFFF;
+    --background: #F7F7F7;
+    --upload-background: #F6F6F6;
+    --border: #C7C7C7;
+    --input-border: #8AC0E2; 
+    --back-link: #4386A9;
+    --select-background: #EBEBEB;
+}
 #laptop-features-page{
     width: 1920px;
     height: 1921px !important;
@@ -11,13 +22,202 @@
 .laptop-features-container >  .survey-container{
     height: 1571px !important;
 }
+.photo-and-name > .photo-upload{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    width: 878px;
+    height: 423px;
+    margin-top: 68px;
+    border-radius: 17px;
+    border: 2px dashed var(--dotted-border);
+    background-color: var(--upload-background);
+    text-align: center;
+}
+.photo-upload > .camera-icon{
+    display: none
+    
+}
+.photo-upload > .alert-icon{
+    position: absolute;
+    top: 280px;
+    left: 940px;
+    width: 38px;
+    height: 34px;
+}
+.photo-upload > .camera-icon{
+    display: none;
+    position: absolute;
+    top: 200px;
+    left: 170px;
+    width: 54px;
+    height: 54px;
+}
+.photo-upload > .upload-options{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 200px;
+}
+.upload-options > .upload-text{
+    color: var(--dotted-border);
+}
+.upload-options > .upload-button{
+    width: 233px;
+    height: 60px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding:  18px 60px 18px 60px;
+    background-color: var(--button);
+    border: 0;
+    color: var(--white);
+}
+.photo-and-name > .name-and-brand{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 878px;
+    height: 180px;
+    border-bottom: 1px solid var(--border);
+}
+.name-and-brand > .laptop-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 455px;
+    height: 134px;
+}
+.laptop-name > .name-input,
+.CPU-core > .cpu-input,
+.CPU-flow > .cpu-input,
+.laptop-ram > .ram-input,
+.buying-date > .date-input,
+.laptop-price > .price-input{
+    box-sizing: border-box;
+    width: 90%;
+    height: 60px;
+    border-radius: 8px;
+    padding-left: 18px;
+    border: 2px solid var(--input-border);
+}
+#SSD, 
+#HDD, 
+#new,
+#old{
+    accent-color: var(--input-border);
+    border: 2px solid var(--input-border);
+}
+.CPU-core > .cpu-input,
+.CPU-flow > .cpu-input{
+    width: 100%;
+}
+.name-and-brand > .brand-selector,
+.CPU-details > .CPU-selector{
+    box-sizing: border-box;
+    width: 408px;
+    height: 60px;
+    border-radius: 8px;
+    background-color: var(--select-background);
+}
+.CPU-details > .CPU-selector{
+    width: 277px;
+}
+.brand-selector > .brand-selected-value,
+.cpu-selector > .cpu-selected-value{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 20px;
+}
+.survey-container > .technical-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 878px;
+    height: 360px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid var(--border);
+}
+.technical-details > .CPU-details,
+.technical-details > .storage-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.CPU-details > .cpu-selector,
+.CPU-details > .CPU-core,
+.CPU-details > .CPU-flow,
+.storage-details > .laptop-ram,
+.storage-details > .storage-type,
+.other-details > .buying-date,
+.other-details > .laptop-buying{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 276px;
+    height: 134px;
+}
+.storage-details > .laptop-ram,
+.storage-details > .storage-type{
+    width: 455px;
+}
+.storage-details > .storage-type{
+    justify-content: flex-start;
+}
+.storage-type > .options-container,
+.condition-type > .options-container{
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.survey-container > .other-details{
+    width: 878px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.other-details > .laptop-buying{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.laptop-buying > .buying-date,
+.laptop-buying > .laptop-price{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 455px;
+}
+.survey-container > .laptop-info-next-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    width: 880px;
+    margin-bottom: 60px;
+}
+.laptop-info-next-button-container > .next-button{
+    border: 0;
+}
+.laptop-info-next-button-container > a{
+    text-decoration: none;
+    color: var(--back-link);
+}
 @media screen and (max-width: 390px) {
     #laptop-features-page,
     .laptop-features-page > .laptop-features-container{
         height: 1811px !important;
     }
     #laptop-features-page > .laptop-features-page{
-        height: 1727px !important;
+        height: 100% !important;
     }
     .laptop-features-container > .navigation {
         width: 300px !important;
@@ -33,5 +233,106 @@
     }
     .laptop-features-container >  .survey-container{
         height: 1727px !important;
+        background-color: var(--background) !important;
+    }
+    .photo-and-name > .photo-upload{
+        width: 358px;
+        height: 244px;
+        margin-top: 30px;
+    }
+    .photo-upload > .upload-options{
+        justify-content: flex-end;
+        height: 150px;
+    }
+    .upload-options > .upload-button{
+        display: none;
+    }
+    .photo-upload > .alert-icon{
+        top: 311px;
+        left: 183px;
+    }
+    .photo-upload > .camera-icon{
+        display: block;
+    }
+    .survey-container > .photo-and-name{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .photo-and-name > .name-and-brand,
+    .technical-details > .storage-details,
+    .technical-details > .CPU-details{
+        flex-direction: column;
+        width: 100%;
+    }
+    .photo-and-name > .name-and-brand{
+        height: 250px;
+        border: 0;
+    }
+    .survey-container > .technical-details{
+        width: 100%;
+        height: 652px;
+        border: 0;
+        padding: 0;
+        padding-top: 20px;
+    }
+    .name-and-brand > .laptop-name,
+    .name-and-brand > .brand-selector{
+        width: 90%;
+    }
+    .laptop-name > .name-input{
+        width: 100%;
+    }
+    .name-and-brand > .name-input,
+    .laptop-ram > .ram-input{
+        width: 100%;
+    }
+    .CPU-details > .CPU-selector,
+    .CPU-details > .CPU-core,
+    .CPU-details > .CPU-flow,
+    .storage-details > .laptop-ram,
+    .storage-details > .storage-type,
+    .laptop-buying > .buying-date,
+    .laptop-buying > .laptop-price{
+        width: 90%;
+    }
+    .other-details > .laptop-buying{
+        flex-direction: column;
+        align-items: center;
+        height: 240px;
+    }
+    .storage-details > .storage-type{
+        justify-content: center;
+    }
+    .survey-container > .other-details,
+    .buying-date > .date-input,
+    .laptop-price > .price-input{
+        width: 100%;
+    }
+    .survey-container > .other-details{
+        height: 340px;
+        justify-content: center;
+        align-items: center;
+    }
+    .survey-container > .technical-details,
+    .survey-container > .other-details,
+    .survey-container > .photo-and-name{
+        background-color: var(--white);
+        border-radius: 12px;
+        padding-bottom: 20px;
+    }
+    .other-details > .laptop-condition,
+    .survey-container > .laptop-info-next-button-container{
+        width: 90%;
+    }
+    .survey-container > .laptop-info-next-button-container{
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+    .laptop-info-next-button-container > .next-button{
+        width: 162px;
+        height: 46px;
+        padding: 0;
     }
 }
