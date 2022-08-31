@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import redberryLogo from "../images/redberry-logo.png"
 import man from "../images/man.png"
 import "../styles/landing.css"
+import "../styles/fonts.css"
 
 export default class Landing extends Component {
   render() {

@@ -17,7 +17,8 @@ class LaptopFeatures extends Component {
     CPU: [],
     brands: [],
     CPUDropDown: false,
-    brandsDropDown: false
+    brandsDropDown: false,
+    image: ""
   }
   //fetching functions
   fetchData = () => {
@@ -108,6 +109,32 @@ class LaptopFeatures extends Component {
   changecondition = (e) => {
     this.props.changecondition(e.target.value);
   }
+  // uploading image
+  uploadImage = async (e) => {
+     const files = e.target.files
+     const data = new FormData()
+     data.append("file", files[0])
+     data.append("upload_preset", "redberry")
+
+    this.props.changeloading(true)
+
+     const res = await fetch(
+       "https://api.cloudinary.com/v1_1/dq0ubdzep/image/upload",
+       {
+         method: 'POST',
+         body: data
+       }
+     )
+     
+     const file = await res.json()
+
+     this.props.changeloading(false)
+     this.setState({
+      image: file.secure_url
+     })
+     this.props.changeimagepreviewstatus(true)
+     this.props.changeimage(file.secure_url)
+  }
 
   render() {
     const selectorClassCPU = this.state.CPUDropDown ? "selector-dropdown" : "hide";
@@ -134,9 +161,15 @@ class LaptopFeatures extends Component {
                   <img className='camera-icon' src={camera} alt="camera icon"/>
                   <img className='alert-icon hide' src={alert} alt="alert icon"/>
                   <div className='upload-options'>
-                    <p className='upload-text'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</p>
-                    <button className='upload-button'>ატვირთე</button>
+                    <label className={this.props.imagePrevieShown ? 'upload-text previewed' : 'upload-text'} htmlFor='photo_upload'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</label>
+                    <input type="file"  name="photo_upload"/>
+                    <label className='upload-label' htmlFor="photo_upload" onChange={this.uploadImage}>ატვირთე</label>
                   </div>
+                  { this.state.loading ? (
+                    <h1> Loading... </h1>
+                  ) : this.props.imagePrevieShown ? (
+                    <img className='image-preview' src={this.state.image}/>
+                  ) : ""}
                 </div>
                 <div className='name-and-brand'>
                   <div className='laptop-name'>
@@ -253,7 +286,9 @@ const mapStateToProps = (state) => {
     storage: state.storage,
     date: state.date,
     price: state.price,
-    condition: state.condition
+    condition: state.condition,
+    loading: state.loading,
+    imagePrevieShown: state.imagePrevieShown
   };
 };
 
@@ -278,7 +313,13 @@ const mapDispatchToProps = (dispatch) => {
     changeprice: (price) =>
       dispatch({ type: "PRICE_UPDATE", price: price}),
     changecondition: (condition) =>
-      dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition})
+      dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition}),
+    changeloading: (state) =>
+      dispatch({ type: "LOADING_UPDATE", state: state}),
+    changeimage: (image) =>
+      dispatch({ type: "IMAGE_UPDATE", image: image}),
+    changeimagepreviewstatus: (status) =>
+      dispatch({ type: "IMAGEPREVIEWSTATUS_UPDATE", status: status})
   };
 };
 

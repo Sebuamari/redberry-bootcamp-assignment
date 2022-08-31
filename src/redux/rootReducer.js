@@ -17,6 +17,10 @@ const initialState = {
     date: localStorage.getItem("date") || "",
     price: localStorage.getItem("price") || "",
     laptopCondition: localStorage.getItem("laptopCondition") || "",
+    loading: false,
+    imagePrevieShown: false,
+    img: "",
+    firstNameValid: true
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -180,6 +184,33 @@ const rootReducer = (state = initialState, action) => {
         return {
             ...state,
             laptopCondition: localStorage.getItem("laptopCondition")
+        }
+    } 
+    // update loading state
+    else if(action.type === "LOADING_UPDATE"){
+        localStorage.setItem("loading", action.state)
+
+        return {
+            ...state,
+            loading: localStorage.getItem("loading")
+        }
+    } 
+    // update image
+    else if(action.type === "IMAGE_UPDATE"){
+        localStorage.setItem("image", action.image)
+
+        return {
+            ...state,
+            image: localStorage.getItem("image")
+        }
+    } 
+    // update image preview status
+    else if(action.type === "IMAGEPREVIEWSTATUS_UPDATE"){
+        localStorage.setItem("imagePrevieShown", action.status)
+
+        return {
+            ...state,
+            imagePrevieShown: localStorage.getItem("imagePrevieShown")
         }
     } 
 

@@ -119,7 +119,7 @@ class PersonalInfo extends Component {
               <div className='names'>
                 <div className='first-name'>
                   <label className='name-label' htmlFor="first-name">სახელი</label>
-                  <input className="name-input" type="text" id="first-name" name="first-name" placeholder="გრიშა"
+                  <input className={ this.props.firstNameValid ? "name-input" : "name-input error"} type="text" id="first-name" name="first-name" placeholder="გრიშა"
                   required onChange={this.changefirstName} value={this.props.firstName}></input>
                   <span className='name-alert'>მინიმუმ 2 სიმბოლო, ქართული ასოები</span>
                 </div>
@@ -180,7 +180,8 @@ const mapStateToProps = (state) => {
     teamID: state.teamID,
     position: state.position,
     mail: state.mail,
-    phone: state.phone
+    phone: state.phone,
+    firstNameValid: state.firstNameValid
   };
 };
 

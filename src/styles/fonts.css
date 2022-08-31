@@ -1,0 +1,8 @@
+@font-face {
+    font-family: HelveticaNeue;
+    src: url("./HelveticaNeue.ttc")
+}
+.landing-links > .landing-link{
+    font-family: 'HelveticaNeue';
+    font-size: 20px;
+}
