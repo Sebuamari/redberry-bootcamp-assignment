@@ -64,9 +64,9 @@
 }
 .photo-upload > .image-preview{
     object-fit: cover;
-    width: 250px;
-    height: 200px;
-    border: 2px solid;
+    width: 100%;
+    height: 100%;
+    border-radius: 17px;
 }
 .upload-options > .upload-text{
     color: var(--dotted-border);
@@ -75,8 +75,8 @@ input[type="file"]{
     opacity: 0;
     z-index: 1;
 }
-.upload-options > .upload-label{
-    position: absolute;
+.upload-options > .upload-label,
+.upload-again > .upload-again-label{
     top: 460px;
     box-sizing: border-box;
     width: 233px;
@@ -88,6 +88,25 @@ input[type="file"]{
     border: 0;
     color: var(--white);
 }
+.upload-options > .upload-label:hover,
+.upload-again > .upload-again-label:hover,
+input[type="file"]:hover{
+    cursor: pointer;
+}
+.upload-options > .upload-photo-input{
+    position: absolute;
+    top: 470px;
+    left: 870px;
+}
+.upload-again > .upload-again-photo-input{
+    position: absolute;
+    top: 690px;
+    left: 1100px;
+}
+.upload-again > .upload-again-label{
+    padding:  18px 0 18px 0;
+    text-align: center;
+}
 .photo-and-name > .name-and-brand{
     display: flex;
     flex-direction: row;
@@ -96,6 +115,34 @@ input[type="file"]{
     width: 878px;
     height: 180px;
     border-bottom: 1px solid var(--border);
+}
+.photo-and-name > .uploaded-picture-settings{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 880px;
+}
+.photo-and-name > .hide{
+    display: none;
+}
+.uploaded-picture-settings > .photo-details,
+.uploaded-picture-settings > .upload-again{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 45%;
+}
+.uploaded-picture-settings > .upload-again{
+    min-width: 30%;
+}
+.photo-details > img{
+    width: 22px;
+    height: 22px;
+}
+.photo-details > .photo-data{
+    display: flex;
+    flex-direction: row;
 }
 .name-and-brand > .laptop-name{
     display: flex;
@@ -218,6 +265,9 @@ input[type="file"]{
     flex-direction: column;
     justify-content: space-between;
 }
+.survey-container > .photo-and-name{
+    max-height: 950px;
+}
 .other-details > .laptop-buying{
     display: flex;
     flex-direction: row;
@@ -282,12 +332,26 @@ input[type="file"]{
         height: 244px;
         margin-top: 30px;
     }
+    .photo-and-name > .uploaded-picture-settings{
+        width: 360px;
+    }
+    .photo-details > .photo-data{
+        flex-direction: column;
+    }
     .photo-upload > .upload-options{
         justify-content: flex-end;
         height: 150px;
     }
     .upload-options > .upload-label{
         display: none;
+    }
+    .upload-options > .upload-photo-input {
+        top: 220px;
+        left: 150px;
+    }
+    .upload-again > .upload-again-photo-input {
+        top: 400px;
+        left: 200px;
     }
     .photo-upload > .alert-icon{
         top: 311px;
@@ -364,7 +428,7 @@ input[type="file"]{
     }
     .laptop-price > .lari-sign{
         left: 330px;
-        top: 1500px;
+        top: 1563px;
     }
     .survey-container > .other-details{
         height: 340px;

@@ -20,6 +20,8 @@ const initialState = {
     loading: false,
     imagePrevieShown: false,
     img: "",
+    imageName: "",
+    imageSize: "",
     firstNameValid: true
 }
 
@@ -194,16 +196,7 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             loading: localStorage.getItem("loading")
         }
-    } 
-    // update image
-    else if(action.type === "IMAGE_UPDATE"){
-        localStorage.setItem("image", action.image)
-
-        return {
-            ...state,
-            image: localStorage.getItem("image")
-        }
-    } 
+    }
     // update image preview status
     else if(action.type === "IMAGEPREVIEWSTATUS_UPDATE"){
         localStorage.setItem("imagePrevieShown", action.status)

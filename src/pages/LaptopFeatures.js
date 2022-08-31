@@ -7,6 +7,7 @@ import logo from "../images/logo.png"
 import camera from "../images/camera.png"
 import alert from "../images/warning.png"
 import lari from "../images/lari.png"
+import uploaded from "../images/uploaded.png"
 import dropdown from "../images/dropdown-arrow.png"
 import "../styles/laptopfeatures.css"
 const CPUURL = "https://pcfy.redberryinternship.ge/api/cpus";
@@ -18,7 +19,9 @@ class LaptopFeatures extends Component {
     brands: [],
     CPUDropDown: false,
     brandsDropDown: false,
-    image: ""
+    image: "",
+    imageName: "",
+    imageSize: ""
   }
   //fetching functions
   fetchData = () => {
@@ -127,13 +130,14 @@ class LaptopFeatures extends Component {
      )
      
      const file = await res.json()
-
+     console.log(file)
      this.props.changeloading(false)
      this.setState({
-      image: file.secure_url
+      image: file.secure_url,
+      imageName: file.original_filename+"."+file.format,
+      imageSize: Math.round(file.bytes/1000) + "Kb"
      })
      this.props.changeimagepreviewstatus(true)
-     this.props.changeimage(file.secure_url)
   }
 
   render() {
@@ -162,14 +166,27 @@ class LaptopFeatures extends Component {
                   <img className='alert-icon hide' src={alert} alt="alert icon"/>
                   <div className='upload-options'>
                     <label className={this.props.imagePrevieShown ? 'upload-text previewed' : 'upload-text'} htmlFor='photo_upload'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</label>
-                    <input type="file"  name="photo_upload"/>
-                    <label className='upload-label' htmlFor="photo_upload" onChange={this.uploadImage}>ატვირთე</label>
+                    <input type="file" className='upload-photo-input'  name="photo_upload" onChange={this.uploadImage}/>
+                    <label className='upload-label' htmlFor="photo_upload">ატვირთე</label>
                   </div>
                   { this.state.loading ? (
                     <h1> Loading... </h1>
                   ) : this.props.imagePrevieShown ? (
                     <img className='image-preview' src={this.state.image}/>
                   ) : ""}
+                </div>
+                <div className={this.props.imagePrevieShown ? "uploaded-picture-settings" : "hide"}>
+                    <div className='photo-details'>
+                      <img src={uploaded} alt="uploaded image icon"/>
+                      <div className='photo-data'>
+                        <p>{this.state.imageName}</p>
+                        <p>{this.state.imageSize}</p>
+                      </div>
+                    </div>
+                    <div className='upload-again'>
+                      <input type="file" className="upload-again-photo-input" name="photo_upload_again" onChange={this.uploadImage}/>
+                      <label className='upload-again-label' htmlFor="photo_upload_again">თავიდან ატვირთე </label>
+                    </div>
                 </div>
                 <div className='name-and-brand'>
                   <div className='laptop-name'>
@@ -316,8 +333,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition}),
     changeloading: (state) =>
       dispatch({ type: "LOADING_UPDATE", state: state}),
-    changeimage: (image) =>
-      dispatch({ type: "IMAGE_UPDATE", image: image}),
     changeimagepreviewstatus: (status) =>
       dispatch({ type: "IMAGEPREVIEWSTATUS_UPDATE", status: status})
   };
