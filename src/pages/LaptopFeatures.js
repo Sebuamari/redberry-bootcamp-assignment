@@ -1,55 +1,59 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import axios from 'axios'
 import arrow from "../images/arrow.png"
 import logo from "../images/logo.png"
 import camera from "../images/camera.png"
 import alert from "../images/warning.png"
+import lari from "../images/lari.png"
 import dropdown from "../images/dropdown-arrow.png"
 import "../styles/laptopfeatures.css"
 const CPUURL = "https://pcfy.redberryinternship.ge/api/cpus";
 const brandsURL = "https://pcfy.redberryinternship.ge/api/brands";
 
-export default class LaptopFeatures extends Component {
+class LaptopFeatures extends Component {
   state = {
     CPU: [],
     brands: [],
     CPUDropDown: false,
-    brandsDropDown: false,
-    selectedCPUValue: "თიმი",
-    selectedBrandValue: "პოზიცია"
+    brandsDropDown: false
   }
   //fetching functions
-  fetchteams = (url) => {
-    fetch(url)
-          .then((res) => res.json())
-          .then((json) => {
-              this.setState({
-                  teams: [...json.data]
-              });
-          })
+  fetchData = () => {
+    const getCPU = axios.get(CPUURL)
+    const getBrands = axios.get(brandsURL)
+    axios.all([getCPU, getBrands]).then(
+      axios.spread((...allData) => {
+        const CPU = allData[0].data.data
+        const brands = allData[1].data.data
+        this.setState({
+          CPU: CPU,
+          brands: brands
+        })
+      })
+    )
   }
-  fetchbrands = (url) => {
-    fetch(url)
-          .then((res) => res.json())
-          .then((json) => {
-              this.setState({
-                  brands: [...json.data]
-              });
-          })
-  }
-  //fetching datas from API as the component mounts
-  componentDidMount() {
-      this.fetchteams(CPUURL);
-      this.fetchbrands(brandsURL);
+  // fetching datas from API as the component mounts
+  componentDidMount () {
+    this.fetchData()
   }
   // change selected value
   changeSelectedValue = (e) => {
-    e.target.parentElement.id === "teams-values" ? this.setState({
-      selectedTeamsValue: e.target.id,
-      teamsDropDown: !this.state.teamsDropDown
-    }) : this.setState({
-      selectedBrandValue: e.target.id,
+    e.target.parentElement.id === "brand-values" ? this.changebrand(e) : this.changecpu(e);
+  }
+  // update brand
+  changebrand = (e) => {
+    this.props.changelaptopBrand(e.target.id)
+    this.setState({
       brandsDropDown: !this.state.brandsDropDown
+    })
+  }  
+  // update CPU
+  changecpu = (e) => {
+    this.props.changeCPU(e.target.id)
+    this.setState({
+      CPUDropDown: !this.state.CPUDropDown
     })
   }
   // loading selector data
@@ -63,15 +67,51 @@ export default class LaptopFeatures extends Component {
   }
   // handle dropdown click
   handleClick = (target) => {
-    target === "teams" ? this.setState({
-      teamsDropDown: !this.state.teamsDropDown
-    }) : this.setState({
+    target === "brand" ? this.setState({
+      CPUDropDown: false,
       brandsDropDown: !this.state.brandsDropDown
+    }) : this.setState({
+      CPUDropDown: !this.state.CPUDropDown,
+      brandsDropDown: false
     })
+  }
+  // update laptop name 
+  changelaptopName = (e) => {
+    this.props.changelaptopName(e.target.value);
+  }
+  // update CPU core 
+  changeCPUcore = (e) => {
+    console.log(e.target.value)
+    this.props.changeCPUCORE(e.target.value);
+  }
+  // update CPU flow 
+  changeCPUflow = (e) => {
+    this.props.changeCPUFLOW(e.target.value);
+  }
+  // update RAM
+  changeLaptopRAM = (e) => {
+    this.props.changeRAM(e.target.value);
+  }
+  // update storage type
+  changestorage = (e) => {
+    this.props.changestorage(e.target.value);
+  }
+  // update date
+  changedate = (e) => {
+    this.props.changedate(e.target.value);
+  }
+  // update price
+  changeprice = (e) => {
+    this.props.changeprice(e.target.value);
+  }
+  // update condition
+  changecondition = (e) => {
+    this.props.changecondition(e.target.value);
   }
 
   render() {
-    const selectorClassBrand = this.state.teamsDropDown ? "selector-dropdown" : "hide";
+    const selectorClassCPU = this.state.CPUDropDown ? "selector-dropdown" : "hide";
+    const selectorClassBrand = this.state.brandsDropDown ? "selector-dropdown" : "hide";
 
     return (
       <div id="laptop-features-page">
@@ -101,15 +141,16 @@ export default class LaptopFeatures extends Component {
                 <div className='name-and-brand'>
                   <div className='laptop-name'>
                     <label className='name-label' htmlFor="laptop-name">ლეპტოპის სახელი</label>
-                    <input className="name-input" type="text" id="laptop-name" name="laptop-name" placeholder="HP"></input>
+                    <input className="name-input" type="text" id="laptop-name" name="laptop-name" placeholder="HP"
+                    onChange={this.changelaptopName} value={this.props.laptopName}></input>
                     <span className='name-alert'>ლათინური ასოები, ციფრები, !@#$%^&*()_+= </span>
                   </div>
                   <div className='brand-selector'>
                       <div className='brand-selected-value' onClick={() => this.handleClick("brand")}>
-                        <p>{this.state.selectedBrandValue}</p>
+                        <p>{this.props.laptopBrand}</p>
                         <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                       </div>
-                      <div id="teams-values" className={selectorClassBrand}>
+                      <div id="brand-values" className={selectorClassBrand}>
                         {this.showSelector(this.state.brands)}
                       </div>
                   </div>
@@ -118,37 +159,42 @@ export default class LaptopFeatures extends Component {
               <div className='technical-details'>
                 <div className='CPU-details'>
                   <div className='CPU-selector'>
-                      <div className='cpu-selected-value' onClick={() => this.handleClick("brand")}>
-                        <p>{this.state.selectedBrandValue}</p>
+                      <div className='cpu-selected-value' onClick={() => this.handleClick("CPU")}>
+                        <p>{this.props.CPU}</p>
                         <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                       </div>
-                      <div id="teams-values" className={selectorClassBrand}>
-                        {this.showSelector(this.state.brands)}
+                      <div id="cpu-values" className={selectorClassCPU}>
+                        {this.showSelector(this.state.CPU)}
                       </div>
                   </div>
                   <div className='CPU-core'>
                     <label className='name-label' htmlFor="CPU-core">CPU-ს ბირთვი</label>
-                    <input className="cpu-input" type="text" id="CPU-core" name="CPU-core" placeholder="14"></input>
+                    <input className="cpu-input" type="text" id="CPU-core" name="CPU-core" placeholder="14"
+                    onChange={this.changeCPUcore} value={this.props.CPUcore}></input>
                     <span className='name-alert'>მხოლოდ ციფრები </span>
                   </div>
                   <div className='CPU-flow'>
                     <label className='name-label' htmlFor="CPU-flow">CPU-ს ნაკადი</label>
-                    <input className="cpu-input" type="text" id="CPU-flow" name="CPU-flow" placeholder="365"></input>
+                    <input className="cpu-input" type="text" id="CPU-flow" name="CPU-flow" placeholder="365"
+                    onChange={this.changeCPUflow} value={this.props.CPUflow}></input>
                     <span className='name-alert'>მხოლოდ ციფრები</span>
                   </div>
                 </div>
                 <div className='storage-details'>
                   <div className='laptop-ram'>
                     <label className='name-label' htmlFor="laptop-ram">ლეპტოპის RAM (GB)</label>
-                    <input className="ram-input" type="text" id="laptop-ram" name="laptop-ram" placeholder="16"></input>
+                    <input className="ram-input" type="text" id="laptop-ram" name="laptop-ram" placeholder="16"
+                    onChange={this.changeLaptopRAM} value={this.props.RAM}></input>
                     <span className='name-alert'>მხოლოდ ციფრები</span>
                   </div>
                   <div className='storage-type'>
                     <p>მეხსიერების ტიპი</p>
                     <div className='options-container'>
-                      <input type="radio" id="SSD" name="SSD storage" value="SSD"/>
+                      <input type="radio" id="SSD" name="storage" value="SSD" checked="checked"
+                      onChange={this.changestorage}/>
                       <label for="SSD">SSD</label>
-                      <input type="radio" id="HDD" name="HDD storage" value="HDD"/>
+                      <input type="radio" id="HDD" name="storage" value="HDD"
+                      onChange={this.changestorage}/>
                       <label for="css">HDD</label>
                     </div>
                   </div>
@@ -158,12 +204,15 @@ export default class LaptopFeatures extends Component {
                 <div className='laptop-buying'> 
                   <div className='buying-date'>
                     <label className='name-label' htmlFor="buying-date">შეძენის რიცხვი (არჩევითი)</label>
-                    <input className="date-input" type="text" id="buying-date" name="buying-date" placeholder="დდ/თთ/წწწწ"></input>
+                    <input className="date-input" type="text" id="buying-date" name="buying-date" placeholder="დდ/თთ/წწწწ"
+                    onFocus={(e) => e.target.type = "date"} onBlur={(e) => e.target.type = "text"} onChange={this.changedate} value={this.props.date}></input>
                     <span className='name-alert'>მხოლოდ ციფრები</span>
                   </div> 
                   <div className='laptop-price'>
                     <label className='name-label' htmlFor="laptop-price">ლეპტოპის ფასი</label>
-                    <input className="price-input" type="number" id="laptop-price" name="laptop-price" placeholder="0000"></input>
+                    <input className="price-input" type="text" id="laptop-price" name="laptop-price" placeholder="0000"
+                    onChange={this.changeprice} value={this.props.price}></input>
+                    <img className="lari-sign" src={lari} alt="lari sign"/>
                     <span className='name-alert'>მხოლოდ ციფრები</span>
                   </div>
                 </div>
@@ -171,9 +220,11 @@ export default class LaptopFeatures extends Component {
                   <div className='condition-type'>
                       <p>ლეპტოპის მდგომარეობა</p>
                       <div className='options-container'>
-                        <input type="radio" id="new" name="ახალი" value="ახალი"/>
+                        <input type="radio" id="new" name="condition" value="ახალი" checked="checked"
+                        onChange={this.changecondition}/>
                         <label for="ახალი">ახალი</label>
-                        <input type="radio" id="old" name="მეორადი" value="მეორადი"/>
+                        <input type="radio" id="old" name="condition" value="მეორადი" 
+                        onChange={this.changecondition}/>
                         <label for="მეორადი">მეორადი</label>
                       </div>
                   </div>
@@ -191,3 +242,44 @@ export default class LaptopFeatures extends Component {
     )
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    CPU: state.CPU,
+    laptopName: state.laptopName,
+    laptopBrand: state.laptopBrand,
+    CPUcore: state.CPUcore,
+    CPUflow: state.CPUflow,
+    RAM: state.RAM,
+    storage: state.storage,
+    date: state.date,
+    price: state.price,
+    condition: state.condition
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeCPU: (CPU) =>
+      dispatch({ type: "CPU_UPDATE", CPU: CPU}),
+    changelaptopName: (laptopName) =>
+      dispatch({ type: "LAPTOPNAME_UPDATE", laptopName: laptopName}),
+    changelaptopBrand: (laptopBrand) =>
+      dispatch({ type: "LAPTOPBRAND_UPDATE", laptopBrand: laptopBrand}),
+    changeCPUCORE: (CPUcore) =>
+      dispatch({ type: "CPUCORE_UPDATE", CPUcore: CPUcore}),
+    changeCPUFLOW: (CPUflow) =>
+      dispatch({ type: "CPUFLOW_UPDATE", CPUflow: CPUflow}),
+    changeRAM: (RAM) =>
+      dispatch({ type: "RAM_UPDATE", RAM: RAM}),
+    changestorage: (storage) =>
+      dispatch({ type: "STORAGE_UPDATE", storage: storage}),
+    changedate: (date) =>
+      dispatch({ type: "DATE_UPDATE", date: date}),
+    changeprice: (price) =>
+      dispatch({ type: "PRICE_UPDATE", price: price}),
+    changecondition: (condition) =>
+      dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition})
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(LaptopFeatures);

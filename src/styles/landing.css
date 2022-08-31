@@ -40,10 +40,6 @@ body{
     height: 60px;
     border-radius: 8px;
     text-decoration: none;
-    font-family: 'Helvetica Neue';
-    font-style: normal;
-    font-weight: 500px;
-    font-size: 20px;
     color: var(--white);
     background-color: var(--button);
 }

@@ -102,6 +102,9 @@
     padding-left: 18px;
     border: 2px solid var(--input-border);
 }
+.laptop-price > .price-input{
+    width: 100%;
+}
 #SSD, 
 #HDD, 
 #new,
@@ -125,12 +128,15 @@
     width: 277px;
 }
 .brand-selector > .brand-selected-value,
-.cpu-selector > .cpu-selected-value{
+.CPU-selector > .cpu-selected-value{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    box-sizing: border-box;
     align-items: center;
     padding: 0 20px 0 20px;
+    width: 100%;
+    height: 100%;
 }
 .survey-container > .technical-details{
     display: flex;
@@ -141,6 +147,20 @@
     height: 360px;
     padding-bottom: 44px;
     border-bottom: 1px solid var(--border);
+}
+.brand-selector > .selector-dropdown,
+.CPU-selector > .selector-dropdown{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 408px;
+    max-height: 410px;
+    border-radius: 8px;
+    background-color: var(--white);
+    filter: drop-shadow(0px 4px 34px rgba(0, 0, 0, 0.25));
+}
+.CPU-selector > .selector-dropdown{
+    width: 277px;
 }
 .technical-details > .CPU-details,
 .technical-details > .storage-details{
@@ -193,7 +213,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 455px;
+    width: 420px;
+}
+.laptop-price > .lari-sign{
+    position: absolute;
+    left: 1350px;
+    top: 1350px;
+    width: 18px;
+    height: 21px;
 }
 .survey-container > .laptop-info-next-button-container{
     display: flex;
@@ -309,6 +336,15 @@
     .buying-date > .date-input,
     .laptop-price > .price-input{
         width: 100%;
+    }
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+    .laptop-price > .lari-sign{
+        left: 330px;
+        top: 1500px;
     }
     .survey-container > .other-details{
         height: 340px;
