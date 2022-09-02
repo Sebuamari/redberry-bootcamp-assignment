@@ -22,35 +22,47 @@ const initialState = {
     img: "",
     imageName: "",
     imageSize: "",
-    firstNameValid: true
+    firstNameValid: localStorage.getItem("firstNameValid") || false,
+    lastNameValid: localStorage.getItem("lastNameValid") || false,
+    mailValid: localStorage.getItem("mailValid") || false,
+    phoneValid: localStorage.getItem("phoneValid") || false,
+    teamChosen: localStorage.getItem("teamChosen") || false,
+    positionChosen: localStorage.getItem("positionChosen") || false,
+    personalInfoPageValid: localStorage.getItem("personalInfoPageValid") || false
 }
 
 const rootReducer = (state = initialState, action) => {
     // update first name
     if(action.type === "FIRSTNAME_UPDATE"){
         localStorage.setItem("firstName", action.firstName)
+        localStorage.setItem("firstNameValid", action.status)
 
         return {
             ...state,
-            firstName: localStorage.getItem("firstName")
+            firstName: localStorage.getItem("firstName"),
+            firstNameValid: localStorage.getItem("firstNameValid")
         }
     }
     // update last name 
     else if(action.type === "LASTNAME_UPDATE"){
         localStorage.setItem("lastName", action.lastName)
+        localStorage.setItem("lastNameValid", action.status)
 
         return {
             ...state,
-            lastName: localStorage.getItem("lastName")
+            lastName: localStorage.getItem("lastName"),
+            lastNameValid: localStorage.getItem("lastNameValid")
         }
     }
     // update team
     else if(action.type === "TEAM_UPDATE"){
         localStorage.setItem("team", action.team)
+        localStorage.setItem("teamChosen", action.status)
 
         return {
             ...state,
-            team: localStorage.getItem("team")
+            team: localStorage.getItem("team"),
+            teamChosen: localStorage.getItem("teamChosen")
         }
     }
     // update team ID
@@ -65,28 +77,35 @@ const rootReducer = (state = initialState, action) => {
     // update position
     else if(action.type === "POSITION_UPDATE"){
         localStorage.setItem("position", action.position)
+        localStorage.setItem("positionChosen", action.status)
 
         return {
             ...state,
-            position: localStorage.getItem("position")
+            position: localStorage.getItem("position"),
+            positionChosen: localStorage.getItem("positionChosen")
         }
     }
     // update mail
     else if(action.type === "MAIL_UPDATE"){
         localStorage.setItem("mail", action.mail)
+        localStorage.setItem("mailValid", action.status)
 
         return {
             ...state,
-            mail: localStorage.getItem("mail")
+            mail: localStorage.getItem("mail"),
+            mailValid: localStorage.getItem("mailValid", action.status)
         }
     }
     // update phone
     else if(action.type === "PHONE_UPDATE"){
         localStorage.setItem("phone", action.phone)
+        localStorage.setItem("phoneValid", action.status)
 
         return {
             ...state,
-            phone: localStorage.getItem("phone")
+            phone: localStorage.getItem("phone"),
+            phoneValid: localStorage.getItem("phoneValid", action.status)
+
         }
     }
     // update image
@@ -204,6 +223,23 @@ const rootReducer = (state = initialState, action) => {
         return {
             ...state,
             imagePrevieShown: localStorage.getItem("imagePrevieShown")
+        }
+    } 
+    // update page validation status
+    else if(action.type === "PERSONALINFOPAGEVALID_UPDATE"){
+        localStorage.setItem("personalInfoPageValid", action.status)
+
+        return {
+            ...state,
+            personalInfoPageValid: localStorage.getItem("personalInfoPageValid")
+        }
+    } 
+    // clear data after submiting it
+    else if(action.type === "CLEAR_DATA"){
+        localStorage.clear();
+
+        return {
+            ...state
         }
     } 
 

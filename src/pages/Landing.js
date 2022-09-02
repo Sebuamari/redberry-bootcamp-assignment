@@ -11,7 +11,7 @@ export default class Landing extends Component {
       <div id="landing-container-page">
         <div className='landing-container'>
           <img className='reberry-logo-text' src={redberryLogo} alt="redberry logo text"/>
-          <img className='landing-page-visual' src={man} alt="landing page visual photo"/>
+          <img className='landing-page-visual' src={man} alt="landing page visual"/>
           <div className='landing-links'>
             <Link to="/PersonalInfo" className='landing-link'>ჩანაწერის დამატება</Link>
             <Link to="/LaptopInfo" className='landing-link'>ჩანაწერების სია</Link>

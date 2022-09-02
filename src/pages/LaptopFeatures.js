@@ -172,12 +172,12 @@ class LaptopFeatures extends Component {
                   { this.state.loading ? (
                     <h1> Loading... </h1>
                   ) : this.props.imagePrevieShown ? (
-                    <img className='image-preview' src={this.state.image}/>
+                    <img className='image-preview' src={this.state.image} alt="preview"/>
                   ) : ""}
                 </div>
                 <div className={this.props.imagePrevieShown ? "uploaded-picture-settings" : "hide"}>
                     <div className='photo-details'>
-                      <img src={uploaded} alt="uploaded image icon"/>
+                      <img src={uploaded} alt="uploaded icon"/>
                       <div className='photo-data'>
                         <p>{this.state.imageName}</p>
                         <p>{this.state.imageSize}</p>
