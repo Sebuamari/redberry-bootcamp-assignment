@@ -58,25 +58,46 @@ class PersonalInfo extends Component {
       brandsDropDown: !this.state.brandsDropDown
     })
   }
+  // validating first and last name
+  validateNames = (nameInput, targetFunction) => {
+    if(nameInput.length >= 2 && nameInput.split("").map( symbol => 
+      symbol.charCodeAt(0) >= 4304 && symbol.charCodeAt(0) <= 4336).every( boolean => boolean === true )) {
+        targetFunction(nameInput, true)
+      } else {
+        targetFunction(nameInput, false)
+      }
+  }
   // update first name
   changefirstName = (e) => {
-    this.props.changefirstName(e.target.value)
+    this.validateNames( e.target.value, this.props.changefirstName)
   }
   // update last name
   changelastName = (e) => {
-    this.props.changelastName(e.target.value)
+    this.validateNames( e.target.value, this.props.changelastName)
   }  
   // update mail
   changemail = (e) => {
-    this.props.changemail(e.target.value)
+    //validate email to be ending with @redberry.ge
+    const mailValidationRegex = /^[^?/+-/!@#$%^&*()][a-zA-Z0-9-_.]+@redberry.ge$/
+    if( mailValidationRegex.test( e.target.value) ){
+      this.props.changemail(e.target.value, true)
+    } else {
+      this.props.changemail(e.target.value, false)
+    }
   }
   // update phone
   changephone = (e) => {
-    this.props.changephone(e.target.value)
+    //validate phone number to be Georgian
+    const phoneValidationRegex = /^\+995[0-9]{9}$/
+    if( phoneValidationRegex.test( e.target.value) ){
+      this.props.changephone(e.target.value, true)
+    } else {
+      this.props.changephone(e.target.value, false)
+    }
   }
   // update team
   changeteam = (e) => {
-    this.props.changeteam(e.target.id)
+    this.props.changeteam(e.target.id, true)
     this.props.changeteamID(e.target.attributes[2].value)
     this.setState({
       teamsDropDown: !this.state.teamsDropDown
@@ -84,15 +105,22 @@ class PersonalInfo extends Component {
   }  
   // update position
   changeposition = (e) => {
-    this.props.changeposition(e.target.id)
+    this.props.changeposition(e.target.id, true)
     this.setState({
       brandsDropDown: !this.state.brandsDropDown
     })
   }
-  // validating data to be able to continue filling the form
-  validateData = () => {
-    // validate name
-    //this.props.firstName
+  // validate page
+  validatePage = () => {
+    // if all the inputs are valid and team and position are also chosen
+    // user can continue to fill the form and get to the second page
+    if(this.props.firstNameValid === "true" && this.props.lastNameValid === "true" &&
+      this.props.teamChosen === "true" && this.props.positionChosen === "true" && 
+      this.props.mailValid === "true" && this.props.phoneValid === "true"){
+        this.props.changepageValidationStatus(true)
+      } else {
+        this.props.changepageValidationStatus(false)
+      }
   }
 
   render() {
@@ -156,12 +184,12 @@ class PersonalInfo extends Component {
               </div>
               <div className='phone-number'>
                   <label className='phone-number-label' htmlFor="phone-number">ტელეფონის ნომერი</label>
-                  <input className="phone-number-input" type="number" id="phone-number" name="phone-number"
+                  <input className="phone-number-input" type="text" id="phone-number" name="phone-number"
                   placeholder='+995 598 00 07 01' onChange={this.changephone} value={this.props.phone}/>
                   <span className='phone-number-alert'>უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს</span>
               </div>
-              <div className='next-button-container' onClick={this.validateData}>
-                <Link className='next-button' to="/LaptopFeatures">შემდეგი</Link>
+              <div className='next-button-container' onClick={this.validatePage}>
+                <Link className='next-button' to={ this.props.personalInfoPageValid? "/LaptopFeatures" : "/PersonalInfo"}>შემდეგი</Link>
               </div>
             </div>
           </div>
@@ -181,26 +209,34 @@ const mapStateToProps = (state) => {
     position: state.position,
     mail: state.mail,
     phone: state.phone,
-    firstNameValid: state.firstNameValid
+    firstNameValid: state.firstNameValid,
+    lastNameValid: state.lastNameValid,
+    mailValid: state.mailValid,
+    phoneValid: state.phoneValid,
+    teamChosen: state.teamChosen,
+    positionChosen: state.positionChosen,
+    personalInfoPageValid: state.personalInfoPageValid
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changefirstName: (firstName) =>
-      dispatch({ type: "FIRSTNAME_UPDATE", firstName: firstName}),
-    changelastName: (lastName) =>
-      dispatch({ type: "LASTNAME_UPDATE", lastName: lastName}),
-    changeteam: (team) =>
-      dispatch({ type: "TEAM_UPDATE", team: team}),
+    changefirstName: (firstName, status) =>
+      dispatch({ type: "FIRSTNAME_UPDATE", firstName: firstName, status: status}),
+    changelastName: (lastName, status) =>
+      dispatch({ type: "LASTNAME_UPDATE", lastName: lastName, status: status}),
+    changeteam: (team, status) =>
+      dispatch({ type: "TEAM_UPDATE", team: team, status: status}),
     changeteamID: (teamID) =>
       dispatch({ type: "TEAMID_UPDATE", teamID: teamID}),
-    changeposition: (position) =>
-      dispatch({ type: "POSITION_UPDATE", position: position}),
-    changemail: (mail) =>
-      dispatch({ type: "MAIL_UPDATE", mail: mail}),
-    changephone: (phone) =>
-      dispatch({ type: "PHONE_UPDATE", phone: phone})
+    changeposition: (position, status) =>
+      dispatch({ type: "POSITION_UPDATE", position: position, status: status}),
+    changemail: (mail, status) =>
+      dispatch({ type: "MAIL_UPDATE", mail: mail, status: status}),
+    changephone: (phone, status) =>
+      dispatch({ type: "PHONE_UPDATE", phone: phone, status: status}),
+    changepageValidationStatus: ( status) =>
+      dispatch({ type: "PERSONALINFOPAGEVALID_UPDATE", status: status})
   };
 };
 
