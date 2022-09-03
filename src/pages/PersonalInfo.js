@@ -43,7 +43,7 @@ class PersonalInfo extends Component {
   showSelector = (array) => {
     return array.map( (data, index) => {
         return(
-          <div id={data.name} className='dropdown-value' teamid={data.id} key={index}
+          <div id={data.name} className='dropdown-value' teamid={data.id} key={data.id}
           onClick={this.changeSelectedValue}>{data.name}</div>
         )
       })
@@ -60,8 +60,8 @@ class PersonalInfo extends Component {
   }
   // validating first and last name
   validateNames = (nameInput, targetFunction) => {
-    if(nameInput.length >= 2 && nameInput.split("").map( symbol => 
-      symbol.charCodeAt(0) >= 4304 && symbol.charCodeAt(0) <= 4336).every( boolean => boolean === true )) {
+    const regex = /^[ა-ჰ]+$/
+    if(nameInput.length >= 2 && regex.test(nameInput)) {
         targetFunction(nameInput, true)
       } else {
         targetFunction(nameInput, false)
@@ -98,14 +98,14 @@ class PersonalInfo extends Component {
   // update team
   changeteam = (e) => {
     this.props.changeteam(e.target.id, true)
-    this.props.changeteamID(e.target.attributes[2].value)
+    this.props.changeteamID(e.target.attributes["teamid"].value)
     this.setState({
       teamsDropDown: !this.state.teamsDropDown
     })
   }  
   // update position
   changeposition = (e) => {
-    this.props.changeposition(e.target.id, true)
+    this.props.changeposition(e.target.id, true, e.target.attributes[2].value)
     this.setState({
       brandsDropDown: !this.state.brandsDropDown
     })
@@ -122,6 +122,7 @@ class PersonalInfo extends Component {
         this.props.changepageValidationStatus(false)
       }
   }
+  teamid
 
   render() {
     // defining selector dropdown class
@@ -140,7 +141,7 @@ class PersonalInfo extends Component {
             <div className='navigation'>
               <Link className='info-nav-link employee' to="/PersonalInfo">თანამშრომლის ინფო</Link>
               <Link className='info-nav-link employee-minimized' to="/PersonalInfo">თანამშრომლის ინფო</Link>
-              <Link className='info-nav-link laptop' to="/LaptopFeatures">ლეპტოპის მახასიათებლები</Link>
+              <Link className='info-nav-link laptop' to={ this.props.personalInfoPageValid? "/LaptopFeatures" : "/PersonalInfo"}>ლეპტოპის მახასიათებლები</Link>
               <div className='left-underline'/>
             </div>
             <div className='survey-container'>
@@ -229,8 +230,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "TEAM_UPDATE", team: team, status: status}),
     changeteamID: (teamID) =>
       dispatch({ type: "TEAMID_UPDATE", teamID: teamID}),
-    changeposition: (position, status) =>
-      dispatch({ type: "POSITION_UPDATE", position: position, status: status}),
+    changeposition: (position, status, ID) =>
+      dispatch({ type: "POSITION_UPDATE", position: position, status: status, ID: ID}),
     changemail: (mail, status) =>
       dispatch({ type: "MAIL_UPDATE", mail: mail, status: status}),
     changephone: (phone, status) =>

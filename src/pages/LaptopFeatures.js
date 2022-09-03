@@ -10,8 +10,10 @@ import lari from "../images/lari.png"
 import uploaded from "../images/uploaded.png"
 import dropdown from "../images/dropdown-arrow.png"
 import "../styles/laptopfeatures.css"
-const CPUURL = "https://pcfy.redberryinternship.ge/api/cpus";
-const brandsURL = "https://pcfy.redberryinternship.ge/api/brands";
+const CPUURL = "https://pcfy.redberryinternship.ge/api/cpus"
+const brandsURL = "https://pcfy.redberryinternship.ge/api/brands"
+const POSTURL = "https://pcfy.redberryinternship.ge/api/laptop/create"
+const TOKEN = "ace653226f10e65c09ed40859f32f58b"
 
 class LaptopFeatures extends Component {
   state = {
@@ -19,9 +21,7 @@ class LaptopFeatures extends Component {
     brands: [],
     CPUDropDown: false,
     brandsDropDown: false,
-    image: "",
-    imageName: "",
-    imageSize: ""
+    photo: ""
   }
   //fetching functions
   fetchData = () => {
@@ -38,9 +38,63 @@ class LaptopFeatures extends Component {
       })
     )
   }
+  // submit form data
+  submitData = () => {
+    const data = new FormData()
+    data.append("name", this.props.firstName)
+    data.append("surname", this.props.lastName)
+    data.append("team_id", Number(this.props.teamID))
+    data.append("position_id", Number(this.props.positionID))
+    data.append("email", this.props.mail)
+    data.append("phone_number", this.props.phone)
+    data.append("laptop_name", this.props.laptopName)
+    data.append("laptop_image", this.state.photo)
+    data.append("laptop_brand_id", this.props.laptopBrandID)
+    data.append("laptop_cpu", this.props.CPU)
+    data.append("laptop_cpu_cores", Number(this.props.CPUcore))
+    data.append("laptop_cpu_threads", Number(this.props.CPUflow))
+    data.append("laptop_ram", Number(this.props.RAM))
+    data.append("laptop_hard_drive_type", this.props.storage)
+    data.append("laptop_state", this.props.laptopCondition)
+    data.append("laptop_purchase_date", this.props.date)
+    data.append("laptop_price", Number(this.props.price))
+    data.append("token", TOKEN)
+
+    // const data = {
+    //     name : this.props.firstName,
+    //     surname : this.props.lastName,
+    //     team_id : Number(this.props.teamID),
+    //     position_id : Number(this.props.positionID),
+    //     email : this.props.mail,
+    //     phone_number : this.props.phone,
+    //     laptop_name: this.props.laptopName,
+    //     laptop_image: pic["laptop_image"],
+    //     laptop_brand_id: this.props.laptopBrandID,
+    //     laptop_cpu: this.props.CPU,
+    //     laptop_cpu_cores: Number(this.props.CPUcore),
+    //     laptop_cpu_threads: Number(this.props.CPUflow),
+    //     laptop_ram: Number(this.props.RAM),
+    //     laptop_hard_drive_type: this.props.storage,
+    //     laptop_state: this.props.laptopCondition,
+    //     laptop_purchase_date: this.props.date,
+    //     laptop_price: Number(this.props.price),
+    //     token : TOKEN
+    // }
+    // const options = {
+    //   method: 'POST',
+    //   headers: {
+    //     accept: 'application/json',
+    //     "Content-Type": 'multipart/form-data'
+    //   },
+    //   body: data
+    // }
+    
+    axios.post(POSTURL, data).then(res => console.log(res.data)).catch(err => console.log(err.response))
+  }
   // fetching datas from API as the component mounts
   componentDidMount () {
     this.fetchData()
+    console.log(typeof(this.props.image))
   }
   // change selected value
   changeSelectedValue = (e) => {
@@ -48,23 +102,23 @@ class LaptopFeatures extends Component {
   }
   // update brand
   changebrand = (e) => {
-    this.props.changelaptopBrand(e.target.id)
+    this.props.changelaptopBrand(e.target.id, true, e.target.attributes["brandid"].value)
     this.setState({
       brandsDropDown: !this.state.brandsDropDown
     })
   }  
   // update CPU
   changecpu = (e) => {
-    this.props.changeCPU(e.target.id)
+    this.props.changeCPU(e.target.id, true)
     this.setState({
       CPUDropDown: !this.state.CPUDropDown
     })
   }
   // loading selector data
   showSelector = (array) => {
-    return array.map( (data, index) => {
+    return array.map( data => {
         return(
-          <div id={data.name} className='dropdown-value' key={index}
+          <div id={data.name} className='dropdown-value' key={data.id} brandid={data.id}
           onClick={this.changeSelectedValue}>{data.name}</div>
         )
       })
@@ -81,24 +135,28 @@ class LaptopFeatures extends Component {
   }
   // update laptop name 
   changelaptopName = (e) => {
-    this.props.changelaptopName(e.target.value);
+    // validate laptop name 
+    const nameValidationRegex = /^[a-zA-Z0-9!@#\$%\^&\*()_+=]+$/
+    this.validateInput( e.target.value, nameValidationRegex, this.props.changelaptopName)
   }
   // update CPU core 
   changeCPUcore = (e) => {
-    console.log(e.target.value)
-    this.props.changeCPUCORE(e.target.value);
+    const CPUcoreRegex = /^[0-9]+$/
+    this.validateInput( e.target.value, CPUcoreRegex, this.props.changeCPUCORE)
   }
   // update CPU flow 
   changeCPUflow = (e) => {
-    this.props.changeCPUFLOW(e.target.value);
+    const CPUflowRegex = /^[0-9]+$/
+    this.validateInput( e.target.value, CPUflowRegex, this.props.changeCPUFLOW)
   }
   // update RAM
   changeLaptopRAM = (e) => {
-    this.props.changeRAM(e.target.value);
+    const RAMRegex = /^[0-9]+$/
+    this.validateInput( e.target.value, RAMRegex, this.props.changeRAM)
   }
   // update storage type
   changestorage = (e) => {
-    this.props.changestorage(e.target.value);
+    this.props.changestorage(e.target.value, true);
   }
   // update date
   changedate = (e) => {
@@ -106,38 +164,77 @@ class LaptopFeatures extends Component {
   }
   // update price
   changeprice = (e) => {
-    this.props.changeprice(e.target.value);
+    const PriceRegex = /^[0-9]+$/
+    this.validateInput( e.target.value, PriceRegex, this.props.changeprice)
   }
   // update condition
   changecondition = (e) => {
-    this.props.changecondition(e.target.value);
+    this.props.changecondition(e.target.value, true);
+  }
+  // convert image to base 64
+  convertToBase64 = (file) => {
+    return new Promise( (resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = ( () => {
+        resolve(fileReader.result)
+      })
+
+      fileReader.onerror = ( (error) => {
+        reject(error)
+      })
+    })
   }
   // uploading image
   uploadImage = async (e) => {
-     const files = e.target.files
-     const data = new FormData()
-     data.append("file", files[0])
-     data.append("upload_preset", "redberry")
+    const files = e.target.files
+    const data = new FormData()
+    const photo = new FormData()
+    const base64Image = await this.convertToBase64(files[0])
+    data.append("file", files[0])
+    photo.append("image", files[0])
+    data.append("upload_preset", "redberry")
 
-    this.props.changeloading(true)
-
-     const res = await fetch(
+    const res = await fetch(
        "https://api.cloudinary.com/v1_1/dq0ubdzep/image/upload",
        {
          method: 'POST',
          body: data
        }
-     )
-     
-     const file = await res.json()
-     console.log(file)
-     this.props.changeloading(false)
-     this.setState({
-      image: file.secure_url,
-      imageName: file.original_filename+"."+file.format,
-      imageSize: Math.round(file.bytes/1000) + "Kb"
-     })
-     this.props.changeimagepreviewstatus(true)
+    )
+
+    this.setState({
+      photo: files[0]
+    })
+
+    const file = await res.json()
+    this.props.changeimage(file.secure_url, file.original_filename+"."+file.format, Math.round(file.bytes/1000) + "Kb", base64Image)
+    this.props.changeimagepreviewstatus(true)
+  }
+  // validation function
+  validateInput = (input, regex, targetFunction) => {
+    if( regex.test( input ) ){
+      targetFunction(input, true);
+    } else {
+      targetFunction(input, false);
+    }
+  }
+  // validate page
+  validatePage = () => {
+    // if all the inputs are valid and storage type and laptop conditions are 
+    // also chosen user can confirm the data
+    if(this.props.laptopNameValid === "true" && this.props.imagePrevieShown === "true" &&
+      this.props.laptopBrandChosen === "true" && this.props.CPUChosen === "true" && 
+      this.props.CPUflowValid === "true" && this.props.CPUcoreValid === "true" &&
+      this.props.RAMValid === "true" && this.props.storageChosen === "true" &&
+      this.props.conditionChosen === "true" && this.props.priceValid === "true"){
+        this.props.changepageValidationStatus(true)
+        this.submitData()
+      } else {
+        this.props.changepageValidationStatus(false)
+      }
   }
 
   render() {
@@ -169,18 +266,14 @@ class LaptopFeatures extends Component {
                     <input type="file" className='upload-photo-input'  name="photo_upload" onChange={this.uploadImage}/>
                     <label className='upload-label' htmlFor="photo_upload">ატვირთე</label>
                   </div>
-                  { this.state.loading ? (
-                    <h1> Loading... </h1>
-                  ) : this.props.imagePrevieShown ? (
-                    <img className='image-preview' src={this.state.image} alt="preview"/>
-                  ) : ""}
+                  { this.props.imagePrevieShown ? ( <img className='image-preview' src={this.props.image.replaceAll('"', ' ')} alt="preview"/> ) : ""}
                 </div>
                 <div className={this.props.imagePrevieShown ? "uploaded-picture-settings" : "hide"}>
                     <div className='photo-details'>
                       <img src={uploaded} alt="uploaded icon"/>
                       <div className='photo-data'>
-                        <p>{this.state.imageName}</p>
-                        <p>{this.state.imageSize}</p>
+                        <p>{this.props.imageName}</p>
+                        <p>{this.props.imageSize}</p>
                       </div>
                     </div>
                     <div className='upload-again'>
@@ -240,10 +333,10 @@ class LaptopFeatures extends Component {
                   <div className='storage-type'>
                     <p>მეხსიერების ტიპი</p>
                     <div className='options-container'>
-                      <input type="radio" id="SSD" name="storage" value="SSD" checked="checked"
+                      <input type="radio" id="SSD" name="storage" value="SSD" checked={this.props.storage === "SSD" ? "checked" : ""}
                       onChange={this.changestorage}/>
                       <label for="SSD">SSD</label>
-                      <input type="radio" id="HDD" name="storage" value="HDD"
+                      <input type="radio" id="HDD" name="storage" value="HDD" checked={this.props.storage === "HDD" ? "checked" : ""}
                       onChange={this.changestorage}/>
                       <label for="css">HDD</label>
                     </div>
@@ -270,10 +363,10 @@ class LaptopFeatures extends Component {
                   <div className='condition-type'>
                       <p>ლეპტოპის მდგომარეობა</p>
                       <div className='options-container'>
-                        <input type="radio" id="new" name="condition" value="ახალი" checked="checked"
+                        <input type="radio" id="new" name="condition" value="new" checked={this.props.laptopCondition === "new" ? "checked" : ""}
                         onChange={this.changecondition}/>
                         <label for="ახალი">ახალი</label>
-                        <input type="radio" id="old" name="condition" value="მეორადი" 
+                        <input type="radio" id="old" name="condition" value="used" checked={this.props.laptopCondition === "used" ? "checked" : ""}
                         onChange={this.changecondition}/>
                         <label for="მეორადი">მეორადი</label>
                       </div>
@@ -282,7 +375,7 @@ class LaptopFeatures extends Component {
               </div>
               <div className='laptop-info-next-button-container'>
                 <Link className='previous-button' to="/PersonalInfo">უკან</Link>
-                <button className='next-button' type="submit">დამახსოვრება</button>
+                <button className='next-button' type="submit" onClick={this.validatePage}>დამახსოვრება</button>
               </div>
             </div>
           </div>
@@ -294,47 +387,71 @@ class LaptopFeatures extends Component {
 }
 const mapStateToProps = (state) => {
   return {
+    firstName: state.firstName,
+    lastName: state.lastName,
+    team: state.team,
+    teamID: state.teamID,
+    position: state.position,
+    positionID: state.positionID,
+    mail: state.mail,
+    phone: state.phone,
     CPU: state.CPU,
     laptopName: state.laptopName,
     laptopBrand: state.laptopBrand,
+    laptopBrandID: state.laptopBrandID,
     CPUcore: state.CPUcore,
     CPUflow: state.CPUflow,
     RAM: state.RAM,
     storage: state.storage,
     date: state.date,
     price: state.price,
-    condition: state.condition,
-    loading: state.loading,
-    imagePrevieShown: state.imagePrevieShown
+    laptopCondition: state.laptopCondition,
+    base64Image: state.base64Image,
+    image: state.image,
+    imageName: state.imageName,
+    imageSize: state.imageSize,
+    imagePrevieShown: state.imagePrevieShown,
+    laptopBrandChosen: state.laptopBrandChosen,
+    CPUChosen: state.CPUChosen,
+    laptopNameValid: state.laptopNameValid,
+    CPUcoreValid: state.CPUcoreValid,
+    CPUflowValid: state.CPUflowValid,
+    RAMValid: state.RAMValid,
+    priceValid: state.priceValid,
+    storageChosen: state.storageChosen,
+    conditionChosen: state.conditionChosen,
+    laptopFeaturesPageValid: state.laptopFeaturesPageValid
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeCPU: (CPU) =>
-      dispatch({ type: "CPU_UPDATE", CPU: CPU}),
-    changelaptopName: (laptopName) =>
-      dispatch({ type: "LAPTOPNAME_UPDATE", laptopName: laptopName}),
-    changelaptopBrand: (laptopBrand) =>
-      dispatch({ type: "LAPTOPBRAND_UPDATE", laptopBrand: laptopBrand}),
-    changeCPUCORE: (CPUcore) =>
-      dispatch({ type: "CPUCORE_UPDATE", CPUcore: CPUcore}),
-    changeCPUFLOW: (CPUflow) =>
-      dispatch({ type: "CPUFLOW_UPDATE", CPUflow: CPUflow}),
-    changeRAM: (RAM) =>
-      dispatch({ type: "RAM_UPDATE", RAM: RAM}),
-    changestorage: (storage) =>
-      dispatch({ type: "STORAGE_UPDATE", storage: storage}),
+    changeCPU: (CPU, status) =>
+      dispatch({ type: "CPU_UPDATE", CPU: CPU, status: status}),
+    changelaptopName: (laptopName, status) =>
+      dispatch({ type: "LAPTOPNAME_UPDATE", laptopName: laptopName, status: status}),
+    changelaptopBrand: (laptopBrand, status, ID) =>
+      dispatch({ type: "LAPTOPBRAND_UPDATE", laptopBrand: laptopBrand, status: status, ID: ID}),
+    changeCPUCORE: (CPUcore, status) =>
+      dispatch({ type: "CPUCORE_UPDATE", CPUcore: CPUcore, status: status}),
+    changeCPUFLOW: (CPUflow, status) =>
+      dispatch({ type: "CPUFLOW_UPDATE", CPUflow: CPUflow, status: status}),
+    changeRAM: (RAM, status) =>
+      dispatch({ type: "RAM_UPDATE", RAM: RAM, status: status}),
+    changestorage: (storage, status) =>
+      dispatch({ type: "STORAGE_UPDATE", storage: storage, status: status}),
     changedate: (date) =>
       dispatch({ type: "DATE_UPDATE", date: date}),
-    changeprice: (price) =>
-      dispatch({ type: "PRICE_UPDATE", price: price}),
-    changecondition: (condition) =>
-      dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition}),
-    changeloading: (state) =>
-      dispatch({ type: "LOADING_UPDATE", state: state}),
+    changeprice: (price, status) =>
+      dispatch({ type: "PRICE_UPDATE", price: price, status: status}),
+    changecondition: (condition, status) =>
+      dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition, status: status}),
+    changeimage: (image, imageName, imageSize, base64Image) =>
+      dispatch({ type: "IMAGE_UPDATE", image: image, imageName: imageName, imageSize:imageSize, base64Image: base64Image}),
     changeimagepreviewstatus: (status) =>
-      dispatch({ type: "IMAGEPREVIEWSTATUS_UPDATE", status: status})
+      dispatch({ type: "IMAGEPREVIEWSTATUS_UPDATE", status: status}),
+    changepageValidationStatus: (status) =>
+      dispatch({ type: "LAPTOPFEATURESPAGEVALID_UPDATE", status: status})
   };
 };
 

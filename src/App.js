@@ -7,13 +7,11 @@ import Laptops from "./pages/Laptops"
 import PersonalInfo from "./pages/PersonalInfo"
 import Success from "./pages/Success"
 
-const history = createBrowserHistory();
-
 export default class App extends Component{
   render(){
     return (
       <div className="app">
-        <Router history={history}>
+        <Router>
           <Routes>
             <Route exact path="/" element={<Landing/>}/>
             <Route exact path="/PersonalInfo" element={<PersonalInfo/>}/>
