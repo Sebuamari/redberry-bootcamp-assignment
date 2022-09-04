@@ -188,6 +188,12 @@ input[type="file"]:hover{
     outline: none;
     border: 2px solid var(--input-border);
 }
+#SSD:checked, 
+#HDD:checked, 
+#new:checked,
+#old:checked {
+    background: var(--input-border);
+}
 .CPU-core > .cpu-input,
 .CPU-flow > .cpu-input{
     width: 100%;

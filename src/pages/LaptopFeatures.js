@@ -13,7 +13,7 @@ import "../styles/laptopfeatures.css"
 const CPUURL = "https://pcfy.redberryinternship.ge/api/cpus"
 const brandsURL = "https://pcfy.redberryinternship.ge/api/brands"
 const POSTURL = "https://pcfy.redberryinternship.ge/api/laptop/create"
-const TOKEN = "ace653226f10e65c09ed40859f32f58b"
+const TOKEN = "bb6416f18af6492ceccc877a2aaed68c"
 
 class LaptopFeatures extends Component {
   state = {

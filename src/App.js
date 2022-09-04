@@ -19,7 +19,7 @@ class App extends Component{
             { this.props.personalInfoPageValid === "true" ? 
               <Route exact path="/LaptopFeatures" element={<LaptopFeatures/>}/> : ""
             }
-            { this.props.laptopFeaturesPageValid === "true" ? 
+            { this.props.laptopFeaturesPageValid === "false" ? 
               <Route exact path="/Success" element={<Success/>}/> : ""
             }
             <Route exact path="/Laptops" element={<Laptops/>}/>
