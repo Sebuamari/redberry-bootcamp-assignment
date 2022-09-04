@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import arrow from "../images/arrow.png"
@@ -90,6 +90,11 @@ class LaptopFeatures extends Component {
     // }
     
     axios.post(POSTURL, data).then(res => console.log(res.data)).catch(err => console.log(err.response))
+    this.props.clear()
+    return this.navigate()
+  }
+  navigate = () => { 
+    return this.props.laptopFeaturesPageValid ? <Navigate to="/Laptops"/> : ""
   }
   // fetching datas from API as the component mounts
   componentDidMount () {
@@ -136,7 +141,7 @@ class LaptopFeatures extends Component {
   // update laptop name 
   changelaptopName = (e) => {
     // validate laptop name 
-    const nameValidationRegex = /^[a-zA-Z0-9!@#\$%\^&\*()_+=]+$/
+    const nameValidationRegex = /^[a-zA-Z0-9!@#$%^&*()_+=]+$/
     this.validateInput( e.target.value, nameValidationRegex, this.props.changelaptopName)
   }
   // update CPU core 
@@ -171,28 +176,27 @@ class LaptopFeatures extends Component {
   changecondition = (e) => {
     this.props.changecondition(e.target.value, true);
   }
-  // convert image to base 64
-  convertToBase64 = (file) => {
-    return new Promise( (resolve, reject) => {
-      const fileReader = new FileReader();
+  // // convert image to base 64
+  // convertToBase64 = (file) => {
+  //   return new Promise( (resolve, reject) => {
+  //     const fileReader = new FileReader();
 
-      fileReader.readAsDataURL(file);
+  //     fileReader.readAsDataURL(file);
 
-      fileReader.onload = ( () => {
-        resolve(fileReader.result)
-      })
+  //     fileReader.onload = ( () => {
+  //       resolve(fileReader.result)
+  //     })
 
-      fileReader.onerror = ( (error) => {
-        reject(error)
-      })
-    })
-  }
+  //     fileReader.onerror = ( (error) => {
+  //       reject(error)
+  //     })
+  //   })
+  // }
   // uploading image
   uploadImage = async (e) => {
     const files = e.target.files
     const data = new FormData()
     const photo = new FormData()
-    const base64Image = await this.convertToBase64(files[0])
     data.append("file", files[0])
     photo.append("image", files[0])
     data.append("upload_preset", "redberry")
@@ -210,7 +214,7 @@ class LaptopFeatures extends Component {
     })
 
     const file = await res.json()
-    this.props.changeimage(file.secure_url, file.original_filename+"."+file.format, Math.round(file.bytes/1000) + "Kb", base64Image)
+    this.props.changeimage(file.secure_url, file.original_filename+"."+file.format, Math.round(file.bytes/1000) + "Kb")
     this.props.changeimagepreviewstatus(true)
   }
   // validation function
@@ -232,6 +236,7 @@ class LaptopFeatures extends Component {
       this.props.conditionChosen === "true" && this.props.priceValid === "true"){
         this.props.changepageValidationStatus(true)
         this.submitData()
+        this.props.clear()
       } else {
         this.props.changepageValidationStatus(false)
       }
@@ -375,7 +380,8 @@ class LaptopFeatures extends Component {
               </div>
               <div className='laptop-info-next-button-container'>
                 <Link className='previous-button' to="/PersonalInfo">უკან</Link>
-                <button className='next-button' type="submit" onClick={this.validatePage}>დამახსოვრება</button>
+                <button className='next-button' type="submit" onClick={this.validatePage}>
+                  {this.props.laptopFeaturesPageValid ? <Navigate to="/Success">დამახსოვრება</Navigate> : <p>დამახსოვრება</p>}</button>
               </div>
             </div>
           </div>
@@ -446,12 +452,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "PRICE_UPDATE", price: price, status: status}),
     changecondition: (condition, status) =>
       dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition, status: status}),
-    changeimage: (image, imageName, imageSize, base64Image) =>
-      dispatch({ type: "IMAGE_UPDATE", image: image, imageName: imageName, imageSize:imageSize, base64Image: base64Image}),
+    changeimage: (image, imageName, imageSize) =>
+      dispatch({ type: "IMAGE_UPDATE", image: image, imageName: imageName, imageSize:imageSize}),
     changeimagepreviewstatus: (status) =>
       dispatch({ type: "IMAGEPREVIEWSTATUS_UPDATE", status: status}),
     changepageValidationStatus: (status) =>
-      dispatch({ type: "LAPTOPFEATURESPAGEVALID_UPDATE", status: status})
+      dispatch({ type: "LAPTOPFEATURESPAGEVALID_UPDATE", status: status}),
+    clear: () =>
+      dispatch({ type: "CLEAR_DATA"})
   };
 };
 

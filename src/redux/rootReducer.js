@@ -40,7 +40,8 @@ const initialState = {
     priceValid: localStorage.getItem("priceValid") || false,
     storageChosen: localStorage.getItem("storageChosen") || false,
     conditionChosen: localStorage.getItem("conditionChosen") || false,
-    laptopFeaturesPageValid: localStorage.getItem("laptopFeaturesPageValid") || false
+    laptopFeaturesPageValid: localStorage.getItem("laptopFeaturesPageValid") || false,
+    laptopID: localStorage.getItem("laptopID") || ""
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -280,6 +281,15 @@ const rootReducer = (state = initialState, action) => {
 
         return {
             ...state
+        }
+    } 
+    // update laptop ID
+    else if(action.type === "LAPTOPID_UPDATE"){
+        localStorage.setItem("laptopID", action.ID)
+
+        return {
+            ...state,
+            laptopID: localStorage.getItem("laptopID")
         }
     } 
 

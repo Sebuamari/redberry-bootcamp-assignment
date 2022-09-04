@@ -14,7 +14,7 @@ export default class Landing extends Component {
           <img className='landing-page-visual' src={man} alt="landing page visual"/>
           <div className='landing-links'>
             <Link to="/PersonalInfo" className='landing-link'>ჩანაწერის დამატება</Link>
-            <Link to="/LaptopInfo" className='landing-link'>ჩანაწერების სია</Link>
+            <Link to="/Laptops" className='landing-link'>ჩანაწერების სია</Link>
           </div>
         </div>
       </div>
