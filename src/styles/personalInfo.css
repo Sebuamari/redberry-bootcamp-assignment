@@ -10,6 +10,7 @@
     --selector-background: #EBEBEB;
     --button: #62A1EB;
     --hover: #E7F0F8;
+    --red: #E52F2F;
 }
 #personal-info-page,
 #laptop-features-page{
@@ -130,6 +131,7 @@
     background-color: var(--selector-background);
     border-radius: 8px;
     padding: 0 30px 0 30px;
+    border: 1px solid;
 }
 .selected-value > .dropdown-vector{
     width: 15px;
@@ -202,6 +204,12 @@
     color: var(--white);
     background-color: var(--button);
     border-radius: 8px;
+}
+.red-text{
+    color: var(--red) !important;
+}
+.red-border{
+    border-color: var(--red) !important;
 }
 @media screen and (max-width: 390px) {
     #personal-info-page,

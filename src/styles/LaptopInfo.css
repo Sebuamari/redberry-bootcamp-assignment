@@ -65,9 +65,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 420px;
+    width: 550px;
     height: 280px;
-    margin-right: 150px;
 }
 .other-data > .condition-and-price, 
 .other-data > .purchase-date {
@@ -88,6 +87,9 @@
 .purchase-date > .data{
     font-size: 22px;
     color: var(--data-text);
+}
+.condition-and-price > .hide{
+    display: none;
 }
 @media screen and (max-width: 390px) {
     .app > .laptop-details-page{
@@ -190,7 +192,8 @@
         height: 40%;
     }
     .laptop-container > .other-data {
+        box-sizing: border-box;
         height: 130px;
-        margin-top: 10px;
+        padding-top: 10px;
     }
 }

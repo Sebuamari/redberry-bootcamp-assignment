@@ -91,15 +91,11 @@ class LaptopFeatures extends Component {
     
     axios.post(POSTURL, data).then(res => console.log(res.data)).catch(err => console.log(err.response))
     this.props.clear()
-    return this.navigate()
-  }
-  navigate = () => { 
-    return this.props.laptopFeaturesPageValid ? <Navigate to="/Laptops"/> : ""
+    //return this.navigate()
   }
   // fetching datas from API as the component mounts
   componentDidMount () {
     this.fetchData()
-    console.log(typeof(this.props.image))
   }
   // change selected value
   changeSelectedValue = (e) => {
@@ -237,9 +233,20 @@ class LaptopFeatures extends Component {
         this.props.changepageValidationStatus(true)
         this.submitData()
         this.props.clear()
+        this.redirect(this.props.laptopFeaturesPageValid)
       } else {
         this.props.changepageValidationStatus(false)
       }
+  }
+  // get class for fields
+  getclass = (check, classvalue, target) => {
+    if (target === "text"){
+      return check === "true" ? classvalue : classvalue + " red-text"
+    } else if (target === "border"){
+      return check === "true" ? classvalue : classvalue + " red-border"
+    } else {
+      return check === "true" ? classvalue : classvalue + " red-background"
+    }
   }
 
   render() {
@@ -263,11 +270,11 @@ class LaptopFeatures extends Component {
             </div>
             <div className='survey-container'>
               <div className='photo-and-name'>
-                <div className='photo-upload'>
+                <div className={ this.getclass( this.props.imagePrevieShown,'photo-upload', "background" )}>
                   <img className='camera-icon' src={camera} alt="camera icon"/>
-                  <img className='alert-icon hide' src={alert} alt="alert icon"/>
+                  <img className={ !this.props.imagePrevieShown ? 'alert-icon' : 'hide'} src={alert} alt="alert icon"/>
                   <div className='upload-options'>
-                    <label className={this.props.imagePrevieShown ? 'upload-text previewed' : 'upload-text'} htmlFor='photo_upload'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</label>
+                    <label className={ this.getclass( this.props.imagePrevieShown,'upload-text', "text" )} htmlFor='photo_upload'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</label>
                     <input type="file" className='upload-photo-input'  name="photo_upload" onChange={this.uploadImage}/>
                     <label className='upload-label' htmlFor="photo_upload">ატვირთე</label>
                   </div>
@@ -288,13 +295,13 @@ class LaptopFeatures extends Component {
                 </div>
                 <div className='name-and-brand'>
                   <div className='laptop-name'>
-                    <label className='name-label' htmlFor="laptop-name">ლეპტოპის სახელი</label>
-                    <input className="name-input" type="text" id="laptop-name" name="laptop-name" placeholder="HP"
+                    <label className={ this.getclass( this.props.laptopNameValid,'name-label', "text" )} htmlFor="laptop-name">ლეპტოპის სახელი</label>
+                    <input className={ this.getclass( this.props.laptopNameValid,'name-input', "border" )} type="text" id="laptop-name" name="laptop-name" placeholder="HP"
                     onChange={this.changelaptopName} value={this.props.laptopName}></input>
-                    <span className='name-alert'>ლათინური ასოები, ციფრები, !@#$%^&*()_+= </span>
+                    <span className={ this.getclass( this.props.laptopNameValid,'name-alert', "text" )}>ლათინური ასოები, ციფრები, !@#$%^&*()_+= </span>
                   </div>
                   <div className='brand-selector'>
-                      <div className='brand-selected-value' onClick={() => this.handleClick("brand")}>
+                      <div className={ this.getclass( this.props.laptopBrandChosen,'brand-selected-value', "border" )} onClick={() => this.handleClick("brand")}>
                         <p>{this.props.laptopBrand}</p>
                         <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                       </div>
@@ -307,7 +314,7 @@ class LaptopFeatures extends Component {
               <div className='technical-details'>
                 <div className='CPU-details'>
                   <div className='CPU-selector'>
-                      <div className='cpu-selected-value' onClick={() => this.handleClick("CPU")}>
+                      <div className={ this.getclass( this.props.CPUChosen,'cpu-selected-value', "border" )} onClick={() => this.handleClick("CPU")}>
                         <p>{this.props.CPU}</p>
                         <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                       </div>
@@ -316,27 +323,30 @@ class LaptopFeatures extends Component {
                       </div>
                   </div>
                   <div className='CPU-core'>
-                    <label className='name-label' htmlFor="CPU-core">CPU-ს ბირთვი</label>
-                    <input className="cpu-input" type="text" id="CPU-core" name="CPU-core" placeholder="14"
+                    <label className={ this.getclass( this.props.CPUcoreValid,'name-label', "text" )} htmlFor="CPU-core">CPU-ს ბირთვი</label>
+                    <input className={ this.getclass( this.props.CPUcoreValid,'cpu-input', "border" )} type="text" id="CPU-core" name="CPU-core" placeholder="14"
                     onChange={this.changeCPUcore} value={this.props.CPUcore}></input>
-                    <span className='name-alert'>მხოლოდ ციფრები </span>
+                    <span className={ this.getclass( this.props.CPUcoreValid,'name-alert', "text" )}>მხოლოდ ციფრები </span>
                   </div>
                   <div className='CPU-flow'>
-                    <label className='name-label' htmlFor="CPU-flow">CPU-ს ნაკადი</label>
-                    <input className="cpu-input" type="text" id="CPU-flow" name="CPU-flow" placeholder="365"
+                    <label className={ this.getclass( this.props.CPUflowValid,'name-label', "text" )} htmlFor="CPU-flow">CPU-ს ნაკადი</label>
+                    <input className={ this.getclass( this.props.CPUflowValid,'cpu-input', "border" )} type="text" id="CPU-flow" name="CPU-flow" placeholder="365"
                     onChange={this.changeCPUflow} value={this.props.CPUflow}></input>
-                    <span className='name-alert'>მხოლოდ ციფრები</span>
+                    <span className={ this.getclass( this.props.CPUflowValid,'name-alert', "text" )}>მხოლოდ ციფრები</span>
                   </div>
                 </div>
                 <div className='storage-details'>
                   <div className='laptop-ram'>
-                    <label className='name-label' htmlFor="laptop-ram">ლეპტოპის RAM (GB)</label>
-                    <input className="ram-input" type="text" id="laptop-ram" name="laptop-ram" placeholder="16"
+                    <label className={ this.getclass( this.props.RAMValid,'name-label', "text" )} htmlFor="laptop-ram">ლეპტოპის RAM (GB)</label>
+                    <input className={ this.getclass( this.props.RAMValid,'ram-input', "border" )} type="text" id="laptop-ram" name="laptop-ram" placeholder="16"
                     onChange={this.changeLaptopRAM} value={this.props.RAM}></input>
-                    <span className='name-alert'>მხოლოდ ციფრები</span>
+                    <span className={ this.getclass( this.props.RAMValid,'name-alert', "text" )}>მხოლოდ ციფრები</span>
                   </div>
                   <div className='storage-type'>
-                    <p>მეხსიერების ტიპი</p>
+                    <div className="label-and-icon">
+                      <p className={ this.getclass( this.props.storageChosen,'name-label', "text" )}>მეხსიერების ტიპი</p>
+                      <img className={ !this.props.storageChosen ? "warning" : "hide"} src={alert} alt="alert icon"/>
+                    </div>
                     <div className='options-container'>
                       <input type="radio" id="SSD" name="storage" value="SSD" checked={this.props.storage === "SSD" ? "checked" : ""}
                       onChange={this.changestorage}/>
@@ -357,16 +367,21 @@ class LaptopFeatures extends Component {
                     <span className='name-alert'>მხოლოდ ციფრები</span>
                   </div> 
                   <div className='laptop-price'>
-                    <label className='name-label' htmlFor="laptop-price">ლეპტოპის ფასი</label>
-                    <input className="price-input" type="text" id="laptop-price" name="laptop-price" placeholder="0000"
-                    onChange={this.changeprice} value={this.props.price}></input>
-                    <img className="lari-sign" src={lari} alt="lari sign"/>
-                    <span className='name-alert'>მხოლოდ ციფრები</span>
+                    <label className={ this.getclass( this.props.priceValid,'name-label', "text" )} htmlFor="laptop-price">ლეპტოპის ფასი</label>
+                    <div className="input-container">
+                      <input className={ this.getclass( this.props.priceValid,'price-input', "border" )} type="text" id="laptop-price" name="laptop-price" placeholder="0000"
+                      onChange={this.changeprice} value={this.props.price}></input>
+                      <img className="lari-sign" src={lari} alt="lari sign"/>
+                    </div>
+                    <span className={ this.getclass( this.props.priceValid,'name-alert', "text" )}>მხოლოდ ციფრები</span>
                   </div>
                 </div>
                 <div className='laptop-condition'>
                   <div className='condition-type'>
-                      <p>ლეპტოპის მდგომარეობა</p>
+                      <div className="label-and-icon">
+                        <p className={ this.getclass( this.props.conditionChosen,'name-label', "text" )}>ლეპტოპის მდგომარეობა</p>
+                        <img className={ !this.props.conditionChosen ? "warning" : "hide"} src={alert} alt="alert icon"/>
+                      </div>
                       <div className='options-container'>
                         <input type="radio" id="new" name="condition" value="new" checked={this.props.laptopCondition === "new" ? "checked" : ""}
                         onChange={this.changecondition}/>
@@ -380,8 +395,7 @@ class LaptopFeatures extends Component {
               </div>
               <div className='laptop-info-next-button-container'>
                 <Link className='previous-button' to="/PersonalInfo">უკან</Link>
-                <button className='next-button' type="submit" onClick={this.validatePage}>
-                  {this.props.laptopFeaturesPageValid ? <Navigate to="/Success">დამახსოვრება</Navigate> : <p>დამახსოვრება</p>}</button>
+                <button className='next-button' type="submit" onClick={this.validatePage}><Link to="/Success">დამახსოვრება</Link></button>
               </div>
             </div>
           </div>

@@ -5,19 +5,37 @@ import axios from 'axios'
 import arrow from "../images/arrow.png"
 import "../styles/LaptopInfo.css"
 const TOKEN ="ace653226f10e65c09ed40859f32f58b"
+const teamsURL = "https://pcfy.redberryinternship.ge/api/teams"
+const positionsURL = "https://pcfy.redberryinternship.ge/api/positions"
+const brandsURL = "https://pcfy.redberryinternship.ge/api/brands"
 
 class LaptopInfo extends Component {
   state = {
-    Laptop: ""
+    teams: "",
+    positions: "",
+    Laptop: "",
+    brands: ""
   }
-
-  //fetching functions
+  // data fetching function
   fetchData = () => {
     const LAPTOPLINK = "https://pcfy.redberryinternship.ge/api/laptop/" + this.props.laptopID + "?token=" + TOKEN
-    axios.get(LAPTOPLINK).then( response => {
-      this.setState({
-        Laptop: response.data.data
-      })}
+    const getTeams = axios.get(teamsURL)
+    const getPositions = axios.get(positionsURL)
+    const getLaptops = axios.get(LAPTOPLINK)
+    const getBrands = axios.get(brandsURL)
+    axios.all([getTeams, getPositions, getLaptops, getBrands]).then(
+      axios.spread((...allData) => {
+        const teams = allData[0].data.data
+        const positions = allData[1].data.data
+        const laptops = allData[2].data.data
+        const brands = allData[3].data.data
+        this.setState({
+          teams: teams,
+          positions: positions,
+          Laptop: laptops,
+          brands: brands
+        })
+      })
     ).catch( error => console.log(error))
   }
   // fetching data from API as the component mounts
@@ -27,7 +45,6 @@ class LaptopInfo extends Component {
   // show laptops
   showLaptopData = () => {
     let laptop = this.state.Laptop
-    console.log(laptop)
     return this.state.Laptop.length !== 0 ? (
         <div className='laptop-container'>
           <div className='general-data'>
@@ -42,8 +59,8 @@ class LaptopInfo extends Component {
               </div>
               <div className='data'>
                 <p>{laptop.user.name }  {laptop.user.surname}</p>
-                <p>{laptop.user.team_id}</p>
-                <p>{laptop.user.position_id}</p>
+                <p>{this.state.teams.filter( team => team.id === laptop.user.team_id)[0].name}</p>
+                <p>{this.state.positions.filter( position => position.id === laptop.user.position_id)[0].name}</p>
                 <p>{laptop.user.email}</p>
                 <p>{laptop.user.phone_number}</p>
               </div>
@@ -59,7 +76,7 @@ class LaptopInfo extends Component {
               </div>
               <div className='data'>
                 <p>{laptop.laptop.name}</p>
-                <p>{laptop.laptop.brand_id}</p>
+                <p>{this.state.brands.filter( brand => brand.id === laptop.laptop.brand_id)[0].name}</p>
                 <p>{laptop.laptop.ram}</p>
                 <p>{laptop.laptop.hard_drive_type}</p>
               </div>
@@ -84,11 +101,11 @@ class LaptopInfo extends Component {
                 <p>ლეპტოპის ფასი:</p>
               </div>
               <div className='data'>
-                <p>{laptop.laptop.state}</p>
+                <p>{laptop.laptop.state === "used" ? "ახალი" : "მეორადი"}</p>
                 <p>{laptop.laptop.price}</p>
               </div>
             </div>
-            <div className='purchase-date'>
+            <div className={laptop.laptop.purchase_date !== null ? 'purchase-date' : 'hide'}>
                 <p className='data-type'>შეძენის რიცხვი:</p>
                 <p className='data'>{laptop.laptop.purchase_date}</p>
             </div>

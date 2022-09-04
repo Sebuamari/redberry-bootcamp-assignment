@@ -32,7 +32,7 @@ class Laptops extends Component {
           <img className='laptop-image' type="external" src={"https://pcfy.redberryinternship.ge"+ laptop.laptop.image} alt="laptop"/>
           <div className='laptop-data'>
             <h3> {laptop.user.name + " " + laptop.user.surname} <br/> {laptop.laptop.name} </h3>
-            <Link onClick={this.redirect(laptop.laptop.id)} to="/LaptopInfo">მეტის ნახვა</Link>
+            <Link onClick={() => this.redirect(laptop.laptop.id)} to="/LaptopInfo">მეტის ნახვა</Link>
           </div>
         </div>
       )

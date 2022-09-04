@@ -122,7 +122,14 @@ class PersonalInfo extends Component {
         this.props.changepageValidationStatus(false)
       }
   }
-  teamid
+  // get class for fields
+  getclass = (check, classvalue, target) => {
+    if (target === "text"){
+      return check === "true" ? classvalue : classvalue + " red-text"
+    } else {
+      return check === "true" ? classvalue : classvalue + " red-border"
+    }
+  }
 
   render() {
     // defining selector dropdown class
@@ -141,26 +148,26 @@ class PersonalInfo extends Component {
             <div className='navigation'>
               <Link className='info-nav-link employee' to="/PersonalInfo">თანამშრომლის ინფო</Link>
               <Link className='info-nav-link employee-minimized' to="/PersonalInfo">თანამშრომლის ინფო</Link>
-              <Link className='info-nav-link laptop' to={ this.props.personalInfoPageValid? "/LaptopFeatures" : "/PersonalInfo"}>ლეპტოპის მახასიათებლები</Link>
+              <Link className='info-nav-link laptop' to={ this.props.personalInfoPageValid ? "/LaptopFeatures" : "/PersonalInfo"}>ლეპტოპის მახასიათებლები</Link>
               <div className='left-underline'/>
             </div>
             <div className='survey-container'>
               <div className='names'>
                 <div className='first-name'>
-                  <label className='name-label' htmlFor="first-name">სახელი</label>
-                  <input className={ this.props.firstNameValid ? "name-input" : "name-input error"} type="text" id="first-name" name="first-name" placeholder="გრიშა"
+                  <label className={this.getclass(this.props.firstNameValid, 'name-label', "text")} htmlFor="first-name">სახელი</label>
+                  <input className={this.getclass(this.props.firstNameValid, 'name-input', "border")} type="text" id="first-name" name="first-name" placeholder="გრიშა"
                   required onChange={this.changefirstName} value={this.props.firstName}></input>
-                  <span className='name-alert'>მინიმუმ 2 სიმბოლო, ქართული ასოები</span>
+                  <span className={this.getclass(this.props.firstNameValid, 'name-alert', "text")}>მინიმუმ 2 სიმბოლო, ქართული ასოები</span>
                 </div>
                 <div className='last-name'>
-                  <label className='name-label' htmlFor="last-name">გვარი</label>
-                  <input className="name-input" type="text" id="last-name" name="last-name" placeholder="ბაგრატიონი"
+                  <label className={this.getclass(this.props.lastNameValid, 'name-label', "text")} htmlFor="last-name">გვარი</label>
+                  <input className={this.getclass(this.props.lastNameValid, 'name-input', "border")} type="text" id="last-name" name="last-name" placeholder="ბაგრატიონი"
                   onChange={this.changelastName} value={this.props.lastName}></input>
-                  <span className='name-alert'>მინიმუმ 2 სიმბოლო, ქართული ასოები</span>
+                  <span className={this.getclass(this.props.lastNameValid, 'name-alert', "text")}>მინიმუმ 2 სიმბოლო, ქართული ასოები</span>
                 </div>
               </div>
               <div className='selector'>
-                  <div className='selected-value' onClick={() => this.handleClick("teams")}>
+                  <div className={this.getclass(this.props.teamChosen, 'selected-value', "border")} onClick={() => this.handleClick("teams")}>
                     <p>{this.props.team}</p>
                     <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                   </div>
@@ -169,7 +176,7 @@ class PersonalInfo extends Component {
                   </div>
               </div>
               <div className='selector'>
-                  <div className='selected-value' onClick={() => this.handleClick("brands")}>
+                  <div className={this.getclass(this.props.positionChosen, 'selected-value', "border")} onClick={() => this.handleClick("brands")}>
                     <p>{this.props.position}</p>
                     <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                   </div>
@@ -178,19 +185,19 @@ class PersonalInfo extends Component {
                   </div>
               </div>
               <div className='mail'>
-                  <label className='mail-label' htmlFor="mail">მეილი</label>
-                  <input className="mail-input" type="mail" id="mail" name="mail" placeholder="grish666@redberry.ge"
+                  <label className={this.getclass(this.props.mailValid, 'mail-label', "text")} htmlFor="mail">მეილი</label>
+                  <input className={this.getclass(this.props.mailValid, 'mail-input', "border")} type="mail" id="mail" name="mail" placeholder="grish666@redberry.ge"
                   onChange={this.changemail} value={this.props.mail}/>
-                  <span className='mail-alert'>უნდა მთავრდებოდეს @redberry.ge-ით</span>
+                  <span className={this.getclass(this.props.mailValid, 'mail-alert', "text")}>უნდა მთავრდებოდეს @redberry.ge-ით</span>
               </div>
               <div className='phone-number'>
-                  <label className='phone-number-label' htmlFor="phone-number">ტელეფონის ნომერი</label>
-                  <input className="phone-number-input" type="text" id="phone-number" name="phone-number"
+                  <label className={this.getclass(this.props.phoneValid, 'phone-number-label', "text")} htmlFor="phone-number">ტელეფონის ნომერი</label>
+                  <input className={this.getclass(this.props.phoneValid, 'phone-number-input', "border")} type="text" id="phone-number" name="phone-number"
                   placeholder='+995 598 00 07 01' onChange={this.changephone} value={this.props.phone}/>
-                  <span className='phone-number-alert'>უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს</span>
+                  <span className={this.getclass(this.props.phoneValid, 'phone-number-alert', "text")}>უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს</span>
               </div>
               <div className='next-button-container' onClick={this.validatePage}>
-                <Link className='next-button' to={ this.props.personalInfoPageValid? "/LaptopFeatures" : "/PersonalInfo"}>შემდეგი</Link>
+                <Link className='next-button' to={ this.props.personalInfoPageValid ? "/LaptopFeatures" : "/PersonalInfo"}>შემდეგი</Link>
               </div>
             </div>
           </div>

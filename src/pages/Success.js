@@ -13,7 +13,7 @@ export default class Success extends Component {
             <p className='success-message'>ჩანაწერი დამატებულია!</p>
           </div>
           <div className='success-links'>
-            <button className='list-button'><Link to="/Laptops"/>სიაში გადაყვანა</button>
+            <Link className='list-button' to="/Laptops">სიაში გადაყვანა</Link>
             <Link className='main-button' to="/">მთავარი</Link>
           </div>
         </div>
