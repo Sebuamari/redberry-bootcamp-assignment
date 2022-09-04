@@ -1,5 +1,5 @@
 This is an online form for Redberry, where user can fill the data about person and the laptop he/she borrowed from Redberry. 
-Tha App is made with React + Redux and uses API to get some kind of data and submit the user inputs.
+Tha App is made with React + Redux and uses API to get some kind of data and submit the user inputs. The App is available in two resolutions, Desktop - 1920x1080 and Iphone 12 Pro - 390x844.
 
 <img width="1093" alt="Screenshot 2022-09-05 at 03 05 18" src="https://user-images.githubusercontent.com/70912461/188337460-4ef42756-0764-467a-80fd-d5bc7cadb720.png">
 <img width="1129" alt="Screenshot 2022-09-05 at 03 03 23" src="https://user-images.githubusercontent.com/70912461/188337461-9832fb12-617b-4d24-89b4-13c248e3f8ba.png">
