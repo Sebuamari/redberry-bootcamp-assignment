@@ -7,7 +7,6 @@ const initialState = {
     positionID: localStorage.getItem("positionID") || "",
     mail: localStorage.getItem("mail") || "",
     phone: localStorage.getItem("phone") || "",
-    image: localStorage.getItem("image") || "",
     laptopName: localStorage.getItem("laptopName") || "",
     laptopBrand: localStorage.getItem("laptopBrand") || "ლეპტოპის ბრენდი",
     laptopBrandID: localStorage.getItem("laptopBrandID") || "",
@@ -19,11 +18,6 @@ const initialState = {
     date: localStorage.getItem("date") || "",
     price: localStorage.getItem("price") || "",
     laptopCondition: localStorage.getItem("laptopCondition") || "",
-    imagePrevieShown: localStorage.getItem("imagePrevieShown") || false,
-    base64Image: localStorage.getItem("base64Image") || "",
-    image: localStorage.getItem("image") || "",
-    imageName: localStorage.getItem("imageName") || "",
-    imageSize: localStorage.getItem("imageSize") || "",
     firstNameValid: localStorage.getItem("firstNameValid") || false,
     lastNameValid: localStorage.getItem("lastNameValid") || false,
     mailValid: localStorage.getItem("mailValid") || false,
@@ -121,21 +115,6 @@ const rootReducer = (state = initialState, action) => {
             phone: localStorage.getItem("phone"),
             phoneValid: localStorage.getItem("phoneValid", action.status)
 
-        }
-    }
-    // update image
-    else if(action.type === "IMAGE_UPDATE"){
-        localStorage.setItem("base64Image", action.base64Image)
-        localStorage.setItem("image", JSON.stringify(action.image))
-        localStorage.setItem("imageName", action.imageName)
-        localStorage.setItem("imageSize", action.imageSize)
-
-        return {
-            ...state,
-            base64Image: localStorage.getItem("base64Image"),
-            image: JSON.parse(localStorage.getItem("image")),
-            imageName: localStorage.getItem("imageName"),
-            imageSize: localStorage.getItem("imageSize")
         }
     }
     // update laptop name

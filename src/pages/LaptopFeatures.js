@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Success from './Success'
 import axios from 'axios'
@@ -24,7 +24,11 @@ class LaptopFeatures extends Component {
     successPopUp: false,
     CPUDropDown: false,
     brandsDropDown: false,
-    photo: ""
+    photo: "",
+    photoPath: "",
+    photoName: "",
+    photoSize: "",
+    imagePreviewShown: ""
   }
   //fetching functions
   fetchData = () => {
@@ -175,7 +179,7 @@ class LaptopFeatures extends Component {
   changecondition = (e) => {
     this.props.changecondition(e.target.value, true);
   }
-  // // convert image to base 64
+  // upload image to cloudinary to load
   // convertToBase64 = (file) => {
   //   return new Promise( (resolve, reject) => {
   //     const fileReader = new FileReader();
@@ -193,28 +197,25 @@ class LaptopFeatures extends Component {
   // }
   // uploading image
   uploadImage = async (e) => {
+    // choose and show photo
     const files = e.target.files
-    const data = new FormData()
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.setState({
+        photoPath: reader.result,
+        photoName: files[0].name,
+        photoSize: files[0].size,
+        imagePreviewShown: "true"
+      })
+    })
+    reader.readAsDataURL(files[0])
+
+    // save photo data
     const photo = new FormData()
-    data.append("file", files[0])
     photo.append("image", files[0])
-    data.append("upload_preset", "redberry")
-
-    const res = await fetch(
-       "https://api.cloudinary.com/v1_1/dq0ubdzep/image/upload",
-       {
-         method: 'POST',
-         body: data
-       }
-    )
-
     this.setState({
       photo: files[0]
     })
-
-    const file = await res.json()
-    this.props.changeimage(file.secure_url, file.original_filename+"."+file.format, Math.round(file.bytes/1000) + "Kb")
-    this.props.changeimagepreviewstatus(true)
   }
   // validation function
   validateInput = (input, regex, targetFunction) => {
@@ -226,9 +227,15 @@ class LaptopFeatures extends Component {
   }
   // validate page
   validatePage = () => {
+    // check if photo is uploaded
+    if( this.state.imagePreviewShown !== "true"){
+        this.setState({
+        imagePreviewShown: "false"
+      })
+    }
     // if all the inputs are valid and storage type and laptop conditions are 
     // also chosen user can confirm the data
-    if(this.props.laptopNameValid === "true" && this.props.imagePrevieShown === "true" &&
+    if(this.props.laptopNameValid === "true" && this.state.imagePreviewShown === "true" &&
       this.props.laptopBrandChosen === "true" && this.props.CPUChosen === "true" && 
       this.props.CPUflowValid === "true" && this.props.CPUcoreValid === "true" &&
       this.props.RAMValid === "true" && this.props.storageChosen === "true" &&
@@ -245,19 +252,23 @@ class LaptopFeatures extends Component {
   }
   // get class for fields
   getclass = (check, classvalue, target) => {
+    console.log(check)
     if (target === "text"){
-      return check === "true" ? classvalue : classvalue + " red-text"
+      return check === "false" ? classvalue + " red-text" : classvalue
     } else if (target === "border"){
-      return check === "true" ? classvalue : classvalue + " red-border"
+      return check === "false" ? classvalue + " red-border" : classvalue
     } else {
-      return check === "true" ? classvalue : classvalue + " red-background"
+      return check === "false" ? classvalue + " red-background" : classvalue
     }
+  }
+  // get class fro radio button labels
+  getRadioButtonsClass = (check, classvalue) => {
+    return check === "true" ? classvalue : classvalue + " red-text"
   }
 
   render() {
     const selectorClassCPU = this.state.CPUDropDown ? "selector-dropdown" : "hide";
     const selectorClassBrand = this.state.brandsDropDown ? "selector-dropdown" : "hide";
-
 
     return (
       <div id={this.state.successPopUp ? "pop-up" : "laptop-features-page"}>
@@ -277,22 +288,25 @@ class LaptopFeatures extends Component {
             </div>
             <div className='survey-container'>
               <div className='photo-and-name'>
-                <div className={ this.getclass( this.props.imagePrevieShown,'photo-upload', "background" )}>
-                  <img className='camera-icon' src={camera} alt="camera icon"/>
-                  <img className={ !this.props.imagePrevieShown ? 'alert-icon' : 'hide'} src={alert} alt="alert icon"/>
-                  <div className='upload-options'>
-                    <label className={ this.getclass( this.props.imagePrevieShown,'upload-text', "text" )} htmlFor='photo_upload'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</label>
+                <div className={ this.getclass( this.state.imagePreviewShown,'photo-upload', "background" )}>
+                  <div className='upload-container'>
+                    <input type="file" className='upload-photo-input-top'  name="photo_upload" onChange={this.uploadImage}/>
+                    <img className='camera-icon' src={camera} alt="camera icon"/>
+                  </div>
+                  <img className={ this.state.imagePreviewShown === "false" ? 'alert-icon' : 'hide'} src={alert} alt="alert icon"/>
+                  <div className={this.state.imagePreviewShown === "true" ? 'hide' : 'upload-options'}>
+                    <label className={ this.getclass( this.state.imagePreviewShown,'upload-text', "text" )} htmlFor='photo_upload'>ჩააგდე ან ატვირთე <br/> ლეპტოპის ფოტო</label>
                     <input type="file" className='upload-photo-input'  name="photo_upload" onChange={this.uploadImage}/>
                     <label className='upload-label' htmlFor="photo_upload">ატვირთე</label>
                   </div>
-                  { this.props.imagePrevieShown ? ( <img className='image-preview' src={this.props.image.replaceAll('"', ' ')} alt="preview"/> ) : ""}
+                  { this.state.imagePreviewShown === "true" ? ( <img className='image-preview' src={this.state.photoPath} alt="preview"/> ) : ""}
                 </div>
-                <div className={this.props.imagePrevieShown ? "uploaded-picture-settings" : "hide"}>
+                <div className={ this.state.imagePreviewShown === "true" ? "uploaded-picture-settings" : "hide"}>
                     <div className='photo-details'>
                       <img src={uploaded} alt="uploaded icon"/>
                       <div className='photo-data'>
-                        <p>{this.props.imageName}</p>
-                        <p>{this.props.imageSize}</p>
+                        <p>{this.state.photoName}</p>
+                        <p>{this.state.photoSize/1000 + "KB"}</p>
                       </div>
                     </div>
                     <div className='upload-again'>
@@ -351,7 +365,7 @@ class LaptopFeatures extends Component {
                   </div>
                   <div className='storage-type'>
                     <div className="label-and-icon">
-                      <p className={ this.getclass( this.props.storageChosen,'name-label', "text" )}>მეხსიერების ტიპი</p>
+                      <p className={ this.getRadioButtonsClass( this.props.storageChosen,'name-label')}>მეხსიერების ტიპი</p>
                       <img className={ !this.props.storageChosen ? "warning" : "hide"} src={alert} alt="alert icon"/>
                     </div>
                     <div className='options-container'>
@@ -370,7 +384,7 @@ class LaptopFeatures extends Component {
                   <div className='buying-date'>
                     <label className='name-label' htmlFor="buying-date">შეძენის რიცხვი (არჩევითი)</label>
                     <input className="date-input" type="text" id="buying-date" name="buying-date" placeholder="დდ/თთ/წწწწ"
-                    onFocus={(e) => e.target.type = "date"} onBlur={(e) => e.target.type = "text"} onChange={this.changedate} value={this.props.date}></input>
+                      onFocus={(e) => e.target.type = "date"} onBlur={(e) => e.target.type = "text"} onChange={this.changedate} value={this.props.date}></input>
                     <span className='name-alert'>მხოლოდ ციფრები</span>
                   </div> 
                   <div className='laptop-price'>
@@ -386,7 +400,7 @@ class LaptopFeatures extends Component {
                 <div className='laptop-condition'>
                   <div className='condition-type'>
                       <div className="label-and-icon">
-                        <p className={ this.getclass( this.props.conditionChosen,'name-label', "text" )}>ლეპტოპის მდგომარეობა</p>
+                        <p className={ this.getRadioButtonsClass( this.props.conditionChosen,'name-label')}>ლეპტოპის მდგომარეობა</p>
                         <img className={ !this.props.conditionChosen ? "warning" : "hide"} src={alert} alt="alert icon"/>
                       </div>
                       <div className='options-container'>
@@ -433,10 +447,6 @@ const mapStateToProps = (state) => {
     date: state.date,
     price: state.price,
     laptopCondition: state.laptopCondition,
-    base64Image: state.base64Image,
-    image: state.image,
-    imageName: state.imageName,
-    imageSize: state.imageSize,
     imagePrevieShown: state.imagePrevieShown,
     laptopBrandChosen: state.laptopBrandChosen,
     CPUChosen: state.CPUChosen,
@@ -473,8 +483,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: "PRICE_UPDATE", price: price, status: status}),
     changecondition: (condition, status) =>
       dispatch({ type: "LAPTOPCONDITION_UPDATE", condition: condition, status: status}),
-    changeimage: (image, imageName, imageSize) =>
-      dispatch({ type: "IMAGE_UPDATE", image: image, imageName: imageName, imageSize:imageSize}),
     changeimagepreviewstatus: (status) =>
       dispatch({ type: "IMAGEPREVIEWSTATUS_UPDATE", status: status}),
     changepageValidationStatus: (status) =>

@@ -29,7 +29,7 @@ class PersonalInfo extends Component {
           positions: positions
         })
       })
-    )
+    ).catch(error => console.log(error))
   }
   // fetching datas from API as the component mounts
   componentDidMount () {
@@ -134,9 +134,9 @@ class PersonalInfo extends Component {
   // get class for fields
   getclass = (check, classvalue, target) => {
     if (target === "text"){
-      return check === "true" ? classvalue : classvalue + " red-text"
+      return check === "false" ? classvalue + " red-text" : classvalue;
     } else {
-      return check === "true" ? classvalue : classvalue + " red-border"
+      return check === "false" ? classvalue + " red-text" : classvalue;
     }
   }
 
@@ -189,8 +189,8 @@ class PersonalInfo extends Component {
                     <p>{this.props.position}</p>
                     <img className='dropdown-vector' src={dropdown} alt="dropdown arrow"/>
                   </div>
-                  <div id="brands-values" className={selectorClassBrands}>
-                    {this.showSelector(this.state.positions.filter( data => data.team_id == this.props.teamID))}
+                  <div id="positions-values" className={selectorClassBrands}>
+                    {this.showSelector(this.state.positions.filter( data => data.team_id === Number(this.props.teamID)))}
                   </div>
               </div>
               <div className='mail'>

@@ -66,7 +66,7 @@ class Laptops extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     changelaptopID: ( ID ) =>
-      dispatch({ type: "LAPTOPID_UPDATE", ID, ID}),
+      dispatch({ type: "LAPTOPID_UPDATE", ID: ID}),
   }
 }
 export default connect(null,mapDispatchToProps)(Laptops)
