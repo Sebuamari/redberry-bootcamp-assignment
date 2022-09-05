@@ -6,8 +6,7 @@ import "../styles/success.css"
 export default class Success extends Component {
   render() {
     return (
-      <div className='success-page'>
-        <div className='success-container'>
+        <div className={this.props.state ? 'success-container' : 'hide'}>
           <div className="image-and-message">
             <img className='success-image' src={success} alt="sucess vector"/>
             <p className='success-message'>ჩანაწერი დამატებულია!</p>
@@ -17,7 +16,6 @@ export default class Success extends Component {
             <Link className='main-button' to="/">მთავარი</Link>
           </div>
         </div>
-      </div>
     )
   }
 }

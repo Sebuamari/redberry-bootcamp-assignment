@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Success from './Success'
 import axios from 'axios'
 import arrow from "../images/arrow.png"
 import logo from "../images/logo.png"
@@ -10,6 +11,7 @@ import lari from "../images/lari.png"
 import uploaded from "../images/uploaded.png"
 import dropdown from "../images/dropdown-arrow.png"
 import "../styles/laptopfeatures.css"
+import "../styles/success.css"
 const CPUURL = "https://pcfy.redberryinternship.ge/api/cpus"
 const brandsURL = "https://pcfy.redberryinternship.ge/api/brands"
 const POSTURL = "https://pcfy.redberryinternship.ge/api/laptop/create"
@@ -19,6 +21,7 @@ class LaptopFeatures extends Component {
   state = {
     CPU: [],
     brands: [],
+    successPopUp: false,
     CPUDropDown: false,
     brandsDropDown: false,
     photo: ""
@@ -233,7 +236,9 @@ class LaptopFeatures extends Component {
         this.props.changepageValidationStatus(true)
         this.submitData()
         this.props.clear()
-        this.redirect(this.props.laptopFeaturesPageValid)
+        this.setState({
+          successPopUp: true
+        })
       } else {
         this.props.changepageValidationStatus(false)
       }
@@ -253,9 +258,11 @@ class LaptopFeatures extends Component {
     const selectorClassCPU = this.state.CPUDropDown ? "selector-dropdown" : "hide";
     const selectorClassBrand = this.state.brandsDropDown ? "selector-dropdown" : "hide";
 
+
     return (
-      <div id="laptop-features-page">
-        <div className='laptop-features-page'>
+      <div id={this.state.successPopUp ? "pop-up" : "laptop-features-page"}>
+        <Success state={this.state.successPopUp}/>
+        <div className={this.state.successPopUp ? "hide" : 'laptop-features-page'}>
           <div className='nav-back'>
             <Link to="/">
               <img id='nav-arrow' src={arrow} alt="navigation arrow"/>
@@ -395,7 +402,7 @@ class LaptopFeatures extends Component {
               </div>
               <div className='laptop-info-next-button-container'>
                 <Link className='previous-button' to="/PersonalInfo">უკან</Link>
-                <button className='next-button' type="submit" onClick={this.validatePage}><Link to="/Success">დამახსოვრება</Link></button>
+                <button className='next-button' type="submit" onClick={this.validatePage}>დამახსოვრება</button>
               </div>
             </div>
           </div>

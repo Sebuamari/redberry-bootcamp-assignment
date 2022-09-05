@@ -110,8 +110,16 @@ class PersonalInfo extends Component {
       brandsDropDown: !this.state.brandsDropDown
     })
   }
+  // redirect to next page
+  redirect = () => {
+    return this.props.firstNameValid === "true" && this.props.lastNameValid === "true" &&
+    this.props.teamChosen === "true" && this.props.positionChosen === "true" && 
+    this.props.mailValid === "true" && this.props.phoneValid === "true" ? "/LaptopFeatures" :
+    this.props.personalInfoPageValid === "true" ? "/LaptopFeatures" : "/PersonalInfo"
+  }
   // validate page
   validatePage = () => {
+    //this.validateNames( e.target.value, this.props.changefirstName)
     // if all the inputs are valid and team and position are also chosen
     // user can continue to fill the form and get to the second page
     if(this.props.firstNameValid === "true" && this.props.lastNameValid === "true" &&
@@ -121,6 +129,7 @@ class PersonalInfo extends Component {
       } else {
         this.props.changepageValidationStatus(false)
       }
+      //console.log(typeof(this.props.personalInfoPageValid) + this.props.personalInfoPageValid)
   }
   // get class for fields
   getclass = (check, classvalue, target) => {
@@ -135,7 +144,7 @@ class PersonalInfo extends Component {
     // defining selector dropdown class
     const selectorClassTeams = this.state.teamsDropDown ? "selector-dropdown" : "hide";
     const selectorClassBrands = this.state.brandsDropDown ? "selector-dropdown" : "hide";
-
+    
     return (
       <div id="personal-info-page">
         <div className='personal-info-page'>
@@ -148,7 +157,7 @@ class PersonalInfo extends Component {
             <div className='navigation'>
               <Link className='info-nav-link employee' to="/PersonalInfo">თანამშრომლის ინფო</Link>
               <Link className='info-nav-link employee-minimized' to="/PersonalInfo">თანამშრომლის ინფო</Link>
-              <Link className='info-nav-link laptop' to={ this.props.personalInfoPageValid ? "/LaptopFeatures" : "/PersonalInfo"}>ლეპტოპის მახასიათებლები</Link>
+              <Link className='info-nav-link laptop' onClick={this.validatePage()} to={this.redirect()}>ლეპტოპის მახასიათებლები</Link>
               <div className='left-underline'/>
             </div>
             <div className='survey-container'>
@@ -197,7 +206,7 @@ class PersonalInfo extends Component {
                   <span className={this.getclass(this.props.phoneValid, 'phone-number-alert', "text")}>უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს</span>
               </div>
               <div className='next-button-container' onClick={this.validatePage}>
-                <Link className='next-button' to={ this.props.personalInfoPageValid ? "/LaptopFeatures" : "/PersonalInfo"}>შემდეგი</Link>
+                <Link className='next-button' to={this.redirect()}>შემდეგი</Link>
               </div>
             </div>
           </div>

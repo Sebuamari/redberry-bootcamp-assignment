@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import arrow from "../images/arrow.png"
 import "../styles/Laptops.css"
+import "../styles/fonts.css"
 const TOKEN ="bb6416f18af6492ceccc877a2aaed68c"
 const LAPTOPSLINK = "https://pcfy.redberryinternship.ge/api/laptops?token=" + TOKEN
 

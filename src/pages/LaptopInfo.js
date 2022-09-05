@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import arrow from "../images/arrow.png"
 import "../styles/LaptopInfo.css"
+import "../styles/fonts.css"
 const TOKEN ="bb6416f18af6492ceccc877a2aaed68c"
 const teamsURL = "https://pcfy.redberryinternship.ge/api/teams"
 const positionsURL = "https://pcfy.redberryinternship.ge/api/positions"

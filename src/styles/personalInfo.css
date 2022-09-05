@@ -11,6 +11,7 @@
     --button: #62A1EB;
     --hover: #E7F0F8;
     --red: #E52F2F;
+    --pagination: #898989;
 }
 #personal-info-page,
 #laptop-features-page{
@@ -60,8 +61,6 @@
     left: 984px;
 }
 .navigation > .info-nav-link{
-    font-size: 20px;
-    font-weight: 700;
     text-decoration: none;
     color: var(--text);
 }
@@ -245,6 +244,7 @@
         position: absolute;
         left: -10px;
         content: "1/2";
+        color: var(--pagination);
     }
     .personal-info-page > .personal-info-container,
     .laptop-features-page > .laptop-features-container{

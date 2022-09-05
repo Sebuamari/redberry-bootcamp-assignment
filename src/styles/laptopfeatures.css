@@ -9,14 +9,25 @@
     --back-link: #4386A9;
     --select-background: #EBEBEB;
     --red: #E52F2F;
+    --success-background: #4A4A4A;
     --red-background: #FFEDED;
 }
 #laptop-features-page{
+    display: flex;
+    justify-content: center;
     width: 1920px;
     height: 1921px !important;
 }
 #laptop-features-page > .laptop-features-page{
     height: 1778px !important;
+}
+#pop-up{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1920px;
+    height: 1080px;
+    background-color: var(--success-background);
 }
 .laptop-features-page > .laptop-features-container{
     height: 1638px !important;
@@ -98,13 +109,13 @@ input[type="file"]:hover{
 }
 .upload-options > .upload-photo-input{
     position: absolute;
-    top: 470px;
-    left: 870px;
+    margin-top: 100px;
+    height: 80px;
 }
 .upload-again > .upload-again-photo-input{
     position: absolute;
-    top: 690px;
-    left: 1100px;
+    height: 80px;
+    margin-top: 10px;
 }
 .upload-again > .upload-again-label{
     padding:  18px 0 18px 0;
@@ -399,10 +410,6 @@ input[type="file"]:hover{
         top: 220px;
         left: 150px;
     }
-    .upload-again > .upload-again-photo-input {
-        top: 420px;
-        left: 200px;
-    }
     .photo-upload > .alert-icon{
         top: 280px;
         left: 183px;
@@ -410,6 +417,11 @@ input[type="file"]:hover{
     .photo-upload > .camera-icon{
         display: block;
         top: 150px;
+    }
+    .upload-again > .upload-again-photo-input{
+        margin-top: 150px;
+        width: 200px;
+        margin-left: 25px;
     }
     .survey-container > .photo-and-name{
         display: flex;

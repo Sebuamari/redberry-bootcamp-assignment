@@ -1,8 +1,135 @@
 @font-face {
-    font-family: HelveticaNeue;
-    src: url("./HelveticaNeue.ttc")
+    font-family: 'HelveticaNeue';
+    src: url("./HelveticaNeue.ttc");
+}
+*{
+    font-family: 'HelveticaNeue', sans-serif;
 }
 .landing-links > .landing-link{
-    font-family: 'HelveticaNeue';
+    font-weight: 700;
     font-size: 20px;
+}
+.navigation > .employee-minimized{
+    font-weight: 700;
+    font-size: 16px;
+}
+.navigation > .info-nav-link {
+    font-weight: 700;
+    font-size: 20px;
+}
+.navigation > .left-underline::after, 
+.navigation > .right-underline::after{
+    font-weight: 400;
+}
+.first-name > .name-label, 
+.last-name > .name-label,
+.selected-value > p,
+.mail > .mail-label,
+.phone-number > .phone-number-label,
+.next-button-container > .next-button,
+.laptop-name > .name-label,
+.brand-selected-value > p,
+.cpu-selected-value > p,
+.CPU-core > .name-label,
+.CPU-flow > .name-label,
+.laptop-ram > .name-label,
+.label-and-icon > .name-label,
+.buying-date > .name-label,
+.laptop-price > .name-label,
+.laptop-info-next-button-container > a,
+.laptop-data > h3{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+}
+.first-name > span, 
+.last-name > span,
+.mail > span,
+.phone-number > span,
+.laptop-name > span,
+.CPU-core > span,
+.CPU-flow > span,
+.laptop-ram > span,
+.buying-date > span,
+.laptop-price > span {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 21px;
+}
+.upload-options > .upload-text,
+.upload-options > .upload-label,
+.upload-again > .upload-again-label,
+.laptop-info-next-button-container > button,
+.success-links > .list-button,
+.success-links > .main-button{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25x;
+}
+.photo-details > .photo-data{
+    font-weight: 400;
+    font-size: 18px;
+}
+.image-and-message > .success-message{
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 31px;
+}
+.list-page-header > h2,
+.laptop-details-page-header > h2{
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 21px;
+}
+.laptop-data > a{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+}
+.data-container > .data-types,
+.general-features > .data-types,
+.cpu-details > .data-types,
+.condition-and-price > .data-types,
+.purchase-date > .data-type{
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 27px;
+}
+.data-container > .data,
+.general-features > .data,
+.cpu-details > .data,
+.condition-and-price > .data,
+.purchase-date > .data{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+}
+@media screen and (max-width: 390px) {
+    .photo-details > .photo-data{
+        font-size: 12px;
+    }
+    .image-and-message > .success-message{
+        font-size: 22px;
+        line-height: 40px;
+    }
+    .list-page-header > h2{
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .laptop-data > h3{
+        font-size: 14px;
+    }
+    .data-container > .data-types,
+    .general-features > .data-types,
+    .cpu-details > .data-types,
+    .condition-and-price > .data-types,
+    .purchase-date > .data-type,
+    .data-container > .data,
+    .general-features > .data,
+    .cpu-details > .data,
+    .condition-and-price > .data,
+    .purchase-date > .data{
+        font-size: 14px;
+        line-height: 25px;
+    }
 }

@@ -30,7 +30,6 @@
 }
 .list-page-header > h2{
     color: var(--header);
-    font-size: 34px;
 }
 .list-page > .list-container{
     box-sizing: border-box;
@@ -71,11 +70,9 @@
 }
 .laptop-data > h3{
     margin: 0;
-    font-size: 18px;
     color: var(--text);
 }
 .laptop-data > a{
-    font-size: 18px;
     color: var(--link);
 }
 @media screen and (max-width: 390px) {

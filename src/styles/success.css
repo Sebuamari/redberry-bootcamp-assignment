@@ -3,15 +3,16 @@
     --success-container-background:#FFFFFF;
     --button: #62A1EB;
 }
-.app > .success-page{
+#pop-up > .success-page{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 2033px;
     height: 1205px;
     background-color: var(--success-background);
+    z-index: 1;
 }
-.success-page > .success-container{
+#pop-up > .success-container{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -54,23 +55,21 @@
     border-radius: 8px;
     border: 0;
     color: var(--success-container-background);
-    font-size: 20px;
 }
 .success-links > .list-button:hover{
     cursor: pointer;
 }
 .success-links > .main-button{
     text-decoration: none;
-    font-size: 20px;
 }
 @media screen and (max-width: 390px) {
-    .app > .success-page{
+    #pop-up{
+        width: 390px !important;
+        height: 844px !important;
+    }
+    #pop-up > .success-container{
         width: 390px;
         height: 844px;
-    }
-    .success-page > .success-container{
-        width: 100%;
-        height: 100%;
     }
     .success-container > .image-and-message{
         height: 450px;
