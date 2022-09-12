@@ -14,6 +14,7 @@ export default class App extends Component{
         <Router>
           <Routes>
             <Route exact path="/" element={<Landing/>}/>
+            <Route exact path="/redberry-bootcamp-assignment" element={<Landing/>}/>
             <Route exact path="/PersonalInfo" element={<PersonalInfo/>}/>
             <Route exact path="/LaptopFeatures" element={<LaptopFeatures/>}/>
             <Route exact path="/Success" element={<Success/>}/>
